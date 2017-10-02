@@ -1,7 +1,7 @@
 <?php
 require_once "config.php";
 
-class bdd {
+class Bdd {
 
     private $bdd;
 

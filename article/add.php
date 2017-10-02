@@ -31,7 +31,7 @@ if ( !empty($_POST["nom_article"]) && !empty($_POST["num_article"]) && !empty($_
 }
 else
 {
-		echo '<p style="color:#C60800;">vous avez mal remplis votre formulaire</p>';
+		echo '<p style="color:#C60800;">vous n\'avez pas remplis le formulaire intégralement</p>';
 }
 	
 

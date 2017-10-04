@@ -22,7 +22,7 @@ $clients = $bdd->query("SELECT * FROM CDI_CLIENT");
 </head>
 <body>
 
-<div class="content" style="width: 100%;max-width: 1000px;margin: auto">
+<div class="content">
 <div class="table-responsive">
     <table class="table table-striped">
         <thead class="thead-inverse">

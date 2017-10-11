@@ -57,9 +57,9 @@ else
         <select name="four" class="custom-select">
             <?php
             foreach ($fours as $four) {
-//                if($values[''] == utf8_encode($p['alpha2'])) {
-//                    echo '<option value="'.utf8_encode($p['alpha2']).'" selected>'.utf8_encode($p['nom_fr_fr']).'</option>';
-//                } else {
+                if($values['FO_NUMERO'] == utf8_encode($four['FO_NUMERO'])) {
+                    echo '<option value="'.utf8_encode($four['FO_NUMERO']).'" selected>'.utf8_encode($four['FO_NOM']).'</option>';
+                } else {
 
                     echo '<option value="'.utf8_encode($four['FO_NUMERO']).'">'.utf8_encode($four['FO_NOM']).'</option>';
 //                }

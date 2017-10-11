@@ -6,7 +6,6 @@ $bdd = new Bdd();
 $bdd->connect();
 $articles = $bdd->query("SELECT * FROM CDI_ARTICLE a INNER JOIN CDI_FOURNISSEUR f ON a.FO_NUMERO=f.FO_NUMERO");
 
-
 ?>
 
 

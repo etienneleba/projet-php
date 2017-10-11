@@ -7,10 +7,10 @@ require_once '../bdd.php';
 
 $values = array(
 
-    'CL_NOM' => $_POST['nom'],
-    'CL_PRENOM' => $_POST['prenom'],
-    'CL_PAYS' => $_POST['pays'],
-    'CL_LOCALITE' => $_POST['localite'],
+    'CL_NOM' => isset ($_POST['nom'])? $_POST['nom']: '',
+    'CL_PRENOM' => isset ($_POST['prenom'])? $_POST['prenom']: '',
+    'CL_PAYS' => isset ($_POST['pays'])? $_POST['pays']: '',
+    'CL_LOCALITE' => isset ($_POST['localite'])? $_POST['localite']: '',
     'CL_TYPE' => 'Particulier',
 
 );
@@ -27,7 +27,7 @@ if(isset($_POST['nom']) && !empty($_POST['nom']) && isset($_POST['prenom']) && !
     $bdd->insert('CDI_CLIENT', $values);
     $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');
 }
-elseif ($_POST['test'] == "true") {
+elseif (isset ($_POST['test'])? $_POST['test']: FALSE == "true") {
     $message = array('etat' => 'danger', 'message' => 'vous avez mal rempli le formulaire');
 }
 

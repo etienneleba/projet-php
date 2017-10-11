@@ -4,29 +4,30 @@
 
 require_once '../bdd.php';
 //require_onde '..correction.php';
-
-$values = array(
-
-    'MA_NUMERO' => 'M13',
-    'MA_LOCALITE' => isset ($_POST['localite'])? $_POST['localite']: '',
-    'MA_GERANT' => isset ($_POST['nom'])&& isset($_POST['prenom'])? $_POST['nom'].' '.$_POST['prenom']: '',
-);
-
-
 $bdd = new Bdd();
 $bdd->connect();
 $bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
-if(isset($_POST['nom']) && !empty($_POST['nom']) && isset($_POST['prenom']) && !empty($_POST['prenom']) && isset($_POST['localite']) && !empty($_POST['localite'] )) {
+if(isset($_POST['fournisseur']) && !empty($_POST['fournisseur'])) {
 
+$fournisseur = array(
 
-    $bdd->insert('CDI_MAGASIN', $values);
+    'FO_NUMERO' => 'F07',
+    'FO_NOM' => isset ($_POST['fournisseur'])? $_POST['fournisseur']: '',
+
+);
+
+    //$bdd->update('CDI_FOURNISSEUR', $values);
     $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');
 }
 elseif (isset ($_POST['test'])? $_POST['test']: FALSE == "true") {
     $message = array('etat' => 'danger', 'message' => 'vous avez mal rempli le formulaire');
 }
+
+$fournisseur = $bdd->query('SELECT * FROM CDI_FOURNISSEUR WHERE FO_NUMERO=\'F07\'');
+
+var_dump($fournisseur);
 ?>
 
 
@@ -48,16 +49,11 @@ if(isset($message['etat'])) {
 <!--FORM-->
 <form action="" method="post">
     <div class="form-group">
-        <label for="nom">Nom : </label>
-        <input type="text" class="form-control" id="nom" name="nom" value="<?php echo isset ($_POST['nom'])? $_POST['nom']: '' ?>">
+        <label for="numéro">Numéro : <?php echo $fournisseur['FO_NUMERO'] ?> </label>
     </div>
     <div class="form-group">
-            <label for="prenom">Prenom : </label>
-            <input type="text" class="form-control" id="prenom" name="prenom" value="<?php echo  isset ($_POST['prenom'])? $_POST['prenom']: ''?>">
-    </div>
-    <div class="form-group">
-        <label for="localite">Localité : </label>
-        <input type="text" class="form-control" id="localite" name="localite" value="<?php echo $values['MA_LOCALITE'] ?>">
+        <label for="fournisseur">Fournisseur : </label>
+        <input type="text" class="form-control" id="fournisseur" name="fournisseur" value="<?php echo $fournisseur['FO_NOM'] ?>">
     </div>
     <input type="hidden" value="true" name="test">
     <button type="submit" class="btn btn-primary">Envoyer</button>

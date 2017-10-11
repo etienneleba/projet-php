@@ -62,7 +62,7 @@ else
                 } else {
 
                     echo '<option value="'.utf8_encode($four['FO_NUMERO']).'">'.utf8_encode($four['FO_NOM']).'</option>';
-//                }
+                 }
             }
 
             ?>

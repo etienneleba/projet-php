@@ -2,8 +2,17 @@
 
 require_once '../bdd.php';
 
-if ( !empty($_POST["nom_article"]) && !empty($_POST["num_article"]) && !empty($_POST["poids_article"])&& !empty($_POST["couleur_article"])&& !empty($_POST["stock_article"])
-	&& !empty($_POST["pa_article"])&& !empty($_POST["pv_article"]))
+
+$values = [
+  'AR_NOM' => 'nom',
+];
+
+$bdd = new Bdd();
+$bdd->connect();
+$fours = $bdd->query('SELECT * FROM CDI_FOURNISSEUR');
+
+if ( !empty($_POST["nom"]) && !empty($_POST["poids"]) && !empty($_POST["couleur"])&& !empty($_POST["stock"])
+	&& !empty($_POST["pa"])&& !empty($_POST["pv"]))
 {
 	
 	
@@ -37,48 +46,27 @@ else
 
 ?>
 
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="shortcut icon" type="image/ico" href="img/favicon.gif" />
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <title>Article | ADD </title>
-</head>
-<body>
-
-<form action="" method="post">
-<p>
-	Entrez un nouvel article:
-</p>
-
-<p>
-    <input type="text" name="num_article" placeholder="numéro de l'article"/>
-</p>
-<p>
-	<input type="text" name="nom_article" placeholder="nom de l'article"/>
-</p>
-<p>
-    <input type="text" name="poids_article" placeholder="poids de l'article"/>
-</p>
-<p>
-    <input type="text" name="couleur_article" placeholder="couleur de l'article"/>
-</p>
-<p>
-    <input type="text" name="stock_article" placeholder="stock de l'article"/>
-</p>
-<p>
-    <input type="text" name="pa_article" placeholder="pa de l'article"/>
-</p>
-<p>
-    <input type="text" name="pv_article" placeholder="prix de vente de l'article"/>
-	<input type="submit" value="Valider" name="valider"/>
-</p>
-</form>
+<?php require_once '../header.php'; ?>
 
 
+    <form action="" method="post">
+        <div class="form-group">
+            <label for="nom">Nom : </label>
+            <input type="text" class="form-control" id="nom" name="nom" value="<?php echo $values['CL_NOM'] ?>">
+        </div>
+        <select name="four" class="custom-select">
+            <?php
+            foreach ($fours as $four) {
+//                if($values[''] == utf8_encode($p['alpha2'])) {
+//                    echo '<option value="'.utf8_encode($p['alpha2']).'" selected>'.utf8_encode($p['nom_fr_fr']).'</option>';
+//                } else {
 
+                    echo '<option value="'.utf8_encode($four['FO_NUMERO']).'">'.utf8_encode($four['FO_NOM']).'</option>';
+//                }
+            }
 
-</body>
-</html>
+            ?>
+        </select>
+    </form>
+
+<?php require_once '../footer.php'; ?>

@@ -11,21 +11,25 @@ $bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 if(isset($_POST['fournisseur']) && !empty($_POST['fournisseur'])) {
 
-$fournisseur = array(
+$client = array(
 
-    'FO_NUMERO' => 'F07',
-    'FO_NOM' => isset ($_POST['fournisseur'])? $_POST['fournisseur']: '',
+    'CL_NUMERO' => '1',
+    'CL_NOM' => isset ($_POST['nom'])? $_POST['nom']: '',
+	'CL_PRENOM' => isset ($_POST['prenom'])? $_POST['prenom']: '',
+	'CL_PAYS' => isset ($_POST['pays'])? $_POST['pays']: '',
+	'CL_LOCALITE' => isset ($_POST['localite'])? $_POST['localite']: '',
+	'CL_TYPE' => isset ($_POST['type'])? $_POST['type']: '',
 
 );
 
-    //$bdd->update('CDI_FOURNISSEUR', $fournisseur);
+    //$bdd->update('CDI_CLIENT', $client);
     $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');
 }
 elseif (isset ($_POST['test'])? $_POST['test']: FALSE == "true") {
     $message = array('etat' => 'danger', 'message' => 'vous avez mal rempli le formulaire');
 }
 
-$fournisseur = $bdd->query('SELECT * FROM CDI_FOURNISSEUR WHERE FO_NUMERO=\'F07\'');
+$client = $bdd->query('SELECT * FROM CDI_CLIENT WHERE CL_NUMERO=\'F07\'');
 
 
 ?>

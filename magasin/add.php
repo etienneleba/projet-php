@@ -1,61 +1,68 @@
+<!--PHP CODE-->
+
 <?php
 
 require_once '../bdd.php';
+//require_onde '..correction.php';
 
-if ( !empty($_POST["num_magasin"]) && !empty($_POST["localite_magasin"]) && !empty($_POST["gerant_magasin"]))
-{
-	
-	
+$values = array(
 
-	$num = $_POST['num_magasin'];  
-	$localite = $_POST['localite_magasin'];
-	$gerant = $_POST['gerant_magasin'];
-	
-	if (isset($_POST['valider']))
-	$reset = $_POST['valider'];
+    'MA_NUMERO' => 'M13',
+    'MA_LOCALITE' => isset ($_POST['localite'])? $_POST['localite']: '',
+    'MA_GERANT' => isset ($_POST['nom'])&& isset($_POST['prenom'])? $_POST['nom'].' '.$_POST['prenom']: '',
+);
 
-	echo "NUM : $num <br/>";
-	echo "LOCALITE : $localite <br/>";
-	echo "GERANT: $gerant <br/>";
+
+$bdd = new Bdd();
+$bdd->connect();
+$bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
+if(isset($_POST['nom']) && !empty($_POST['nom']) && isset($_POST['prenom']) && !empty($_POST['prenom']) && isset($_POST['localite']) && !empty($_POST['localite'] )) {
+
+
+    $bdd->insert('CDI_MAGASIN', $values);
+    $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');
 }
-else
-{
-		echo '<p style="color:#C60800;">vous n\'avez pas remplis le formulaire intégralement</p>';
+elseif (isset ($_POST['test'])? $_POST['test']: FALSE == "true") {
+    $message = array('etat' => 'danger', 'message' => 'vous avez mal rempli le formulaire');
 }
-	
-
 ?>
 
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="shortcut icon" type="image/ico" href="img/favicon.gif" />
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <title>Magasin | ADD </title>
-</head>
-<body>
+<!--INCLUDE HEADER-->
+<?php require_once '../header.php'?>
 
+
+<!--ALERT MESSAGE-->
+<?php
+if(isset($message['etat'])) {
+    echo '<div class="alert alert-'.$message['etat'].' alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+    '.$message['message'].'</div>';
+}
+?>
+
+<!--FORM-->
 <form action="" method="post">
-<p>
-	Entrez un nouveau magasin:
-</p>
+    <div class="form-group">
+        <label for="nom">Nom : </label>
+        <input type="text" class="form-control" id="nom" name="nom" value="<?php echo isset ($_POST['nom'])? $_POST['nom']: '' ?>">
+    </div>
+    <div class="form-group">
+            <label for="prenom">Prenom : </label>
+            <input type="text" class="form-control" id="prenom" name="prenom" value="<?php echo  isset ($_POST['prenom'])? $_POST['prenom']: ''?>">
+    </div>
+    <div class="form-group">
+        <label for="localite">Localité : </label>
+        <input type="text" class="form-control" id="localite" name="localite" value="<?php echo $values['MA_LOCALITE'] ?>">
+    </div>
+    <input type="hidden" value="true" name="test">
+    <button type="submit" class="btn btn-primary">Envoyer</button>
 
-<p>
-    <input type="text" name="num_magasin" placeholder="numéro du magasin"/>
-</p>
-<p>
-	<input type="text" name="localite_magasin" placeholder="localite du magasin"/>
-</p>
-<p>
-	<input type="text" name="gerant_magasin" placeholder="gerant du magasin"/>
-	<input type="submit" value="Valider" name="valider"/>
-</p>
 </form>
 
-
-
-
-</body>
-</html>
+<!--INLCUDE FOOTER-->
+<?php require_once '../footer.php'?>

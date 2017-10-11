@@ -1,56 +1,60 @@
+<!--PHP CODE-->
+
 <?php
 
 require_once '../bdd.php';
+//require_onde '..correction.php';
 
-if ( !empty($_POST["num_fournisseur"]) && !empty($_POST["nom_fournisseur"]))
-{
-	
-	
+$values = array(
 
-	$num = $_POST['num_fournisseur'];  
-	$nom = $_POST['nom_fournisseur'];
-	
-	if (isset($_POST['valider']))
-	$reset = $_POST['valider'];
+    'FO_NUMERO' => 'F07',
+    'FO_NOM' => isset ($_POST['fournisseur'])? $_POST['fournisseur']: '',
 
-	echo "NUM : $num <br/>";
-	echo "NOM : $nom <br/>";
+);
+
+
+$bdd = new Bdd();
+$bdd->connect();
+$bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
+if(isset($_POST['fournisseur']) && !empty($_POST['fournisseur'])) {
+
+
+    $bdd->insert('CDI_FOURNISSEUR', $values);
+    $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');
 }
-else
-{
-		echo '<p style="color:#C60800;">vous n\'avez pas remplis le formulaire intégralement</p>';
+elseif (isset ($_POST['test'])? $_POST['test']: FALSE == "true") {
+    $message = array('etat' => 'danger', 'message' => 'vous avez mal rempli le formulaire');
 }
-	
-
 ?>
 
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="shortcut icon" type="image/ico" href="img/favicon.gif" />
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <title>Fournisseur | ADD </title>
-</head>
-<body>
+<!--INCLUDE HEADER-->
+<?php require_once '../header.php'?>
 
+
+<!--ALERT MESSAGE-->
+<?php
+if(isset($message['etat'])) {
+    echo '<div class="alert alert-'.$message['etat'].' alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+    '.$message['message'].'</div>';
+}
+?>
+
+<!--FORM-->
 <form action="" method="post">
-<p>
-	Entrez un nouveau fournisseur:
-</p>
+    <div class="form-group">
+        <label for="fournisseur">Fournisseur : </label>
+        <input type="text" class="form-control" id="fournisseur" name="fournisseur" value="<?php echo $values['FO_NOM'] ?>">
+    </div>
+    <input type="hidden" value="true" name="test">
+    <button type="submit" class="btn btn-primary">Envoyer</button>
 
-<p>
-    <input type="text" name="num_fournisseur" placeholder="numéro du fournisseur"/>
-</p>
-<p>
-	<input type="text" name="nom_fournisseur" placeholder="nom du fournisseur"/>
-	<input type="submit" value="Valider" name="valider"/>
-</p>
 </form>
 
-
-
-
-</body>
-</html>
+<!--INLCUDE FOOTER-->
+<?php require_once '../footer.php'?>

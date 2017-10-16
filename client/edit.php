@@ -60,11 +60,11 @@ if(isset($message['etat'])) {
         <input type="text" class="form-control" id="nom" name="nom" value="<?php echo $client['CL_NOM'] ?>">
     </div>
 	<div class="form-group">
-        <label for="fournisseur">Prénom: </label>
+        <label for="prénom">Prénom: </label>
         <input type="text" class="form-control" id="prenom" name="prenom" value="<?php echo $client['CL_PRENOM'] ?>">
     </div>
 	<div class="form-group">
-            <label for="nom">Pays : </label><br>
+            <label for="pays">Pays : </label><br>
         <select name="pays" class="custom-select">
             <?php
             foreach ($pays as $p) {
@@ -81,11 +81,11 @@ if(isset($message['etat'])) {
 
     </div>
 	<div class="form-group">
-        <label for="fournisseur">Localité: </label>
+        <label for="localité">Localité: </label>
         <input type="text" class="form-control" id="localite" name="localite" value="<?php echo $client['CL_LOCALITE'] ?>">
     </div>
 	<div class="form-group">
-        <label for="numéro">Type : <?php echo $client['CL_TYPE'] ?> </label>
+        <label for="type">Type : <?php echo $client['CL_TYPE'] ?> </label>
     </div>
     <input type="hidden" value="true" name="test">
     <button type="submit" class="btn btn-primary">Envoyer</button>

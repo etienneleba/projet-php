@@ -18,14 +18,16 @@ $fournisseur = array(
 
 );
 
-    //$bdd->update('CDI_FOURNISSEUR', $fournisseur);
+
+    $bdd->update('CDI_FOURNISSEUR', $fournisseur);
+
     $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');
 }
 elseif (isset ($_POST['test'])? $_POST['test']: FALSE == "true") {
     $message = array('etat' => 'danger', 'message' => 'vous avez mal rempli le formulaire');
 }
 
-$fournisseur = $bdd->query('SELECT * FROM CDI_FOURNISSEUR WHERE FO_NUMERO=\'F07\'');
+$fournisseur = $bdd->query('SELECT * FROM CDI_FOURNISSEUR WHERE FO_NUMERO=\'F06\'');
 
 
 ?>

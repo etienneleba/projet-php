@@ -27,7 +27,8 @@ if(isset($_POST['nom']) && !empty($_POST['nom']) && isset($_POST['prenom']) && !
     $bdd->insert('CDI_CLIENT', $values);
     $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');
 }
-elseif (isset ($_POST['test'])? $_POST['test']: FALSE == "true") {
+elseif (isset ($_POST['test
+'])? $_POST['test']: FALSE == "true") {
     $message = array('etat' => 'danger', 'message' => 'vous avez mal rempli le formulaire');
 }
 

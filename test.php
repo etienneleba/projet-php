@@ -4,6 +4,8 @@ require_once "bdd.php";
 
 $bdd = new bdd();
 $bdd->connect();
+$bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 //$bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 //$bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
@@ -11,17 +13,16 @@ $bdd->connect();
 
 
 $values = array(
-    'CL_NUMERO' => 21,
     'CL_NOM' => 'GERARD',
-    'CL_PRENOM' => 'PAUL',
+    'CL_PRENOM' => 'PAULETTE',
     'CL_PAYS' => 'F',
     'CL_LOCALITE' => 'CAEN',
     'CL_TYPE' => 'Particulier',
 
 );
 
-$bdd->insert('CDI_CLIENT', $values);
-
+//$bdd->update('CDI_CLIENT', $values, array('CL_NUMERO' => 21));
+$bdd->query("UPDATE `CDI_CLIENT` SET `CL_PRENOM`='PAULE' WHERE `CL_NUMERO`=21");
 
 
 

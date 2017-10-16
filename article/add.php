@@ -4,7 +4,12 @@ require_once '../bdd.php';
 
 
 $values = [
-  'AR_NOM' => 'nom',
+  'AR_NUMERO' => 'A56',
+  'FO_NUMERO' => $_POST['four'],
+  'AR_NOM' => $_POST['nom'],
+  'AR_POIDS' => $_POST['poids'],
+  'AR_COULEUR' => $_POST['couleur'],
+  'AR_STOCK' => $_POST['AR_STOCK'],
 ];
 
 $bdd = new Bdd();
@@ -12,42 +17,34 @@ $bdd->connect();
 $fours = $bdd->query('SELECT * FROM CDI_FOURNISSEUR');
 
 if ( !empty($_POST["nom"]) && !empty($_POST["poids"]) && !empty($_POST["couleur"])&& !empty($_POST["stock"])
-	&& !empty($_POST["pa"])&& !empty($_POST["pv"]))
-{
-	
-	
+	&& !empty($_POST["pa"])&& !empty($_POST["pv"])) {
 
-	$num = $_POST['num_article'];  
-	$nom = $_POST['nom_article'];
-	$poids = $_POST['poids_article'];
-	$couleur = $_POST['couleur_article'];
-	$stock = $_POST['stock_article'];
-	$pa = $_POST['pa_article'];
-	$pv = $_POST['pv_article'];
-	
-	if (isset($_POST['valider']))
-	$reset = $_POST['valider'];
 
-	echo "NUM : $num <br/>";
-	echo "NOM : $nom <br/>";
-	echo "POIDS : $poids <br/>";
-	echo "COULEUR : $couleur <br/>";
-	echo "STOCK : $stock <br/>";
-	echo "PA : $pa <br/>";
-	echo "PV : $pv <br/>";
-	
-	
-}
-else
-{
-		echo '<p style="color:#C60800;">vous n\'avez pas remplis le formulaire intégralement</p>';
-}
-	
 
+        $bdd->insert('CDI_ARTICLE', $values);
+        $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');
+    }
+    elseif (isset ($_POST['test'])? $_POST['test']: FALSE == "true") {
+        $message = array('etat' => 'danger', 'message' => 'vous avez mal rempli le formulaire');
+    }
+
+$pays = $bdd->query('SELECT * FROM CDI_PAYS');
 ?>
+
+
 
 <?php require_once '../header.php'; ?>
 
+    <!--ALERT MESSAGE-->
+<?php
+if(isset($message['etat'])) {
+    echo '<div class="alert alert-'.$message['etat'].' alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+    '.$message['message'].'</div>';
+}
+?>
 
     <form action="" method="post">
         <div class="form-group">
@@ -62,7 +59,7 @@ else
                 } else {
 
                     echo '<option value="'.utf8_encode($four['FO_NUMERO']).'">'.utf8_encode($four['FO_NOM']).'</option>';
-//                }
+                 }
             }
 
             ?>

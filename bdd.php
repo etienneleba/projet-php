@@ -15,7 +15,7 @@ class Bdd {
 
     public function query($stat) {
        // return $this->bdd->query($stat)->fetchAll(PDO::FETCH_ASSOC);
-		 return $this->bdd->query($stat)->fetch(PDO::FETCH_ASSOC);
+		return $this->bdd->query($stat)->fetch(PDO::FETCH_ASSOC);
     }
 
     public function insert($table, $values) {

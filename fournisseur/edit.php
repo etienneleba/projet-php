@@ -18,7 +18,7 @@ $fournisseur = array(
 
 );
 
-    //$bdd->update('CDI_FOURNISSEUR', $values);
+    //$bdd->update('CDI_FOURNISSEUR', $fournisseur);
     $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');
 }
 elseif (isset ($_POST['test'])? $_POST['test']: FALSE == "true") {
@@ -27,7 +27,7 @@ elseif (isset ($_POST['test'])? $_POST['test']: FALSE == "true") {
 
 $fournisseur = $bdd->query('SELECT * FROM CDI_FOURNISSEUR WHERE FO_NUMERO=\'F07\'');
 
-var_dump($fournisseur);
+
 ?>
 
 

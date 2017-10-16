@@ -19,7 +19,7 @@ $fournisseur = array(
 );
 
 
-    $bdd->update('CDI_FOURNISSEUR', $fournisseur);
+  //  $bdd->update('CDI_FOURNISSEUR', $fournisseur);
 
     $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');
 }

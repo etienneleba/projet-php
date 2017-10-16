@@ -5,7 +5,6 @@ require_once '../bdd.php';
 $bdd = new Bdd();
 $bdd->connect();
 $clients = $bdd->query("SELECT * FROM CDI_CLIENT");
-
 ?>
 
 

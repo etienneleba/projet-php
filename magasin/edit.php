@@ -9,25 +9,24 @@ $bdd->connect();
 $bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
-if(isset($_POST['fournisseur']) && !empty($_POST['fournisseur'])) {
+if(isset($_POST['localite']) && !empty($_POST['localite'])&&isset($_POST['gerant']) && !empty($_POST['gerant'])) {
 
-$fournisseur = array(
+$magasin = array(
 
-    'FO_NUMERO' => 'F07',
-    'FO_NOM' => isset ($_POST['fournisseur'])? $_POST['fournisseur']: '',
+    'MA_NUMERO' => 'M02',
+	'MA_LOCALITE' => isset ($_POST['localite'])? $_POST['localite']: '',
+	'MA_GERANT' => isset ($_POST['gerant'])? $_POST['gerant']: '',
 
 );
 
-
-    $bdd->update('CDI_FOURNISSEUR', $fournisseur);
-
+    //$bdd->update('CDI_MAGASIN', $magasin);
     $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');
 }
 elseif (isset ($_POST['test'])? $_POST['test']: FALSE == "true") {
     $message = array('etat' => 'danger', 'message' => 'vous avez mal rempli le formulaire');
 }
 
-$fournisseur = $bdd->query('SELECT * FROM CDI_FOURNISSEUR WHERE FO_NUMERO=\'F06\'');
+$magasin = $bdd->query('SELECT * FROM CDI_MAGASIN WHERE MA_NUMERO=\'M02\'');
 
 
 ?>
@@ -51,11 +50,15 @@ if(isset($message['etat'])) {
 <!--FORM-->
 <form action="" method="post">
     <div class="form-group">
-        <label for="numéro">Numéro : <?php echo $fournisseur['FO_NUMERO'] ?> </label>
+        <label for="numéro">Numéro : <?php echo $magasin['MA_NUMERO'] ?> </label>
     </div>
-    <div class="form-group">
-        <label for="fournisseur">Fournisseur : </label>
-        <input type="text" class="form-control" id="fournisseur" name="fournisseur" value="<?php echo $fournisseur['FO_NOM'] ?>">
+	<div class="form-group">
+        <label for="localité">Localité: </label>
+        <input type="text" class="form-control" id="localite" name="localite" value="<?php echo $magasin['MA_LOCALITE'] ?>">
+    </div>
+		<div class="form-group">
+        <label for="gérant">Gérant: </label>
+        <input type="text" class="form-control" id="gerant" name="gerant" value="<?php echo $magasin['MA_GERANT'] ?>">
     </div>
     <input type="hidden" value="true" name="test">
     <button type="submit" class="btn btn-primary">Envoyer</button>

@@ -9,24 +9,27 @@ $bdd->connect();
 $bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
+if(isset($_GET['id'])){
+$id=$_GET['id'];
+}
+
 if(isset($_POST['localite']) && !empty($_POST['localite'])&&isset($_POST['gerant']) && !empty($_POST['gerant'])) {
 
 $magasin = array(
 
-    'MA_NUMERO' => 'M02',
 	'MA_LOCALITE' => isset ($_POST['localite'])? $_POST['localite']: '',
 	'MA_GERANT' => isset ($_POST['gerant'])? $_POST['gerant']: '',
 
 );
 
-    //$bdd->update('CDI_MAGASIN', $magasin);
+    $bdd->update('CDI_MAGASIN', $magasin, array('MA_NUMERO'=>$id));
     $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');
 }
 elseif (isset ($_POST['test'])? $_POST['test']: FALSE == "true") {
     $message = array('etat' => 'danger', 'message' => 'vous avez mal rempli le formulaire');
 }
 
-$magasin = $bdd->query('SELECT * FROM CDI_MAGASIN WHERE MA_NUMERO=\'M02\'');
+$magasin = $bdd->query("SELECT * FROM CDI_MAGASIN WHERE MA_NUMERO='$id'");
 
 
 ?>

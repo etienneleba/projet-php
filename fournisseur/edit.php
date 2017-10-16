@@ -9,17 +9,21 @@ $bdd->connect();
 $bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
+if(isset($_GET['id'])){
+$id=$_GET['id'];
+}
+
 if(isset($_POST['fournisseur']) && !empty($_POST['fournisseur'])) {
 
 $fournisseur = array(
 
-    'FO_NUMERO' => 'F07',
+    
     'FO_NOM' => isset ($_POST['fournisseur'])? $_POST['fournisseur']: '',
 
 );
 
 
-  //  $bdd->update('CDI_FOURNISSEUR', $fournisseur);
+    $bdd->update('CDI_FOURNISSEUR', $fournisseur, array('FO_NUMERO'=>$id));
 
     $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');
 }
@@ -27,8 +31,7 @@ elseif (isset ($_POST['test'])? $_POST['test']: FALSE == "true") {
     $message = array('etat' => 'danger', 'message' => 'vous avez mal rempli le formulaire');
 }
 
-$fournisseur = $bdd->query('SELECT * FROM CDI_FOURNISSEUR WHERE FO_NUMERO=\'F06\'');
-
+$fournisseur = $bdd->query("SELECT * FROM CDI_FOURNISSEUR WHERE FO_NUMERO='$id'");
 
 ?>
 

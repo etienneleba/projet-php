@@ -8,32 +8,33 @@ $bdd = new Bdd();
 $bdd->connect();
 $bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-
+if(isset($_GET['id'])){
+$id=$_GET['id'];
+}
 
 if(isset($_POST['nom']) && !empty($_POST['nom']) && isset($_POST['poids']) && !empty($_POST['poids'])&&isset($_POST['couleur']) && !empty($_POST['couleur'])
 	&&isset($_POST['stock']) && !empty($_POST['stock'])&&isset($_POST['pa']) && !empty($_POST['pa'])&&isset($_POST['pv']) && !empty($_POST['pv'])) {
 
 $article = array(
 
-    'AR_NUMERO' => 'A01',
+    
 	'FO_NUMERO' => isset ($_POST['fournisseur'])? $_POST['fournisseur']: '',
 	'AR_NOM' => isset ($_POST['nom'])? $_POST['nom']: '',
 	'AR_POIDS' => isset ($_POST['poids'])? $_POST['poids']: '',
 	'AR_COULEUR' => isset ($_POST['couleur'])? $_POST['couleur']: '',
 	'AR_STOCK' => isset ($_POST['stock'])? $_POST['stock']: '',
 	'AR_PA' => isset ($_POST['pa'])? $_POST['pa']: '',
-	'AR_PV' => isset ($_POST['PV'])? $_POST['PV']: '',
+	'AR_PV' => isset ($_POST['pv'])? $_POST['pv']: '',
 
 );
-
-    //$bdd->update('CDI_ARTICLE', $article);
+    $bdd->update('CDI_ARTICLE', $article, array('AR_NUMERO'=> $id));
     $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');
 }
 elseif (isset ($_POST['test'])? $_POST['test']: FALSE == "true") {
     $message = array('etat' => 'danger', 'message' => 'vous avez mal rempli le formulaire');
 }
 
-$article = $bdd->query('SELECT * FROM CDI_ARTICLE WHERE AR_NUMERO=\'A01\'');
+$article = $bdd->query("SELECT * FROM CDI_ARTICLE WHERE AR_NUMERO='$id'");
 $fours = $bdd->queryAll('SELECT * FROM CDI_FOURNISSEUR');
 
 ?>
@@ -59,7 +60,7 @@ if(isset($message['etat'])) {
     <div class="form-group">
         <label for="numéro">Numéro : <?php echo $article['AR_NUMERO'] ?> </label>
     </div>
-	<select name="four" class="custom-select">
+	<select name="fournisseur" class="custom-select">
             <?php
             foreach ($fours as $four) {
                 if($values['FO_NUMERO'] == utf8_encode($four['FO_NUMERO'])) {

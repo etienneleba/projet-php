@@ -9,7 +9,8 @@ $bdd->connect();
 $bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
-if(isset($_POST['client']) && !empty($_POST['client'])) {
+if(isset($_POST['nom']) && !empty($_POST['nom'])&&isset($_POST['prenom']) && !empty($_POST['prenom'])&&isset($_POST['pays']) && !empty($_POST['pays'])
+	&&isset($_POST['localite']) && !empty($_POST['localite'])&&isset($_POST['type']) && !empty($_POST['type'])) {
 
 $client = array(
 

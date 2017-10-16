@@ -9,7 +9,7 @@ $bdd->connect();
 $bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
-if(isset($_POST['magasin']) && !empty($_POST['magasin'])) {
+if(isset($_POST['localite']) && !empty($_POST['localite'])&&isset($_POST['gerant']) && !empty($_POST['gerant'])) {
 
 $magasin = array(
 

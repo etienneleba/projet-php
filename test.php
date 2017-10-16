@@ -1,5 +1,5 @@
 <?php
-require_once "bdd.php";
+/*require_once "bdd.php";
 
 
 $bdd = new bdd();
@@ -21,10 +21,18 @@ $values = array(
 );
 
 $bdd->insert('CDI_CLIENT', $values);
+*/
 
 
+require 'correction.php';
 
-
+$prenom="harvey";
+$nom="roberts";
+$localite="étédae";
+$verif=new Verification();
+$prenom=$verif->VerifEtCorrectionPrenom($prenom);
+$nom=$verif->VerifEtCorrectionNom($nom);
+$localite=$verif->VerifEtCorrectionLocalite($localite);
 
 
 

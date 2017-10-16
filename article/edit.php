@@ -8,7 +8,7 @@ $bdd = new Bdd();
 $bdd->connect();
 $bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-$fours = $bdd->query('SELECT * FROM CDI_FOURNISSEUR');
+
 
 if(isset($_POST['nom']) && !empty($_POST['nom']) && isset($_POST['poids']) && !empty($_POST['poids'])&&isset($_POST['couleur']) && !empty($_POST['couleur'])
 	&&isset($_POST['stock']) && !empty($_POST['stock'])&&isset($_POST['pa']) && !empty($_POST['pa'])&&isset($_POST['pv']) && !empty($_POST['pv'])) {
@@ -34,7 +34,7 @@ elseif (isset ($_POST['test'])? $_POST['test']: FALSE == "true") {
 }
 
 $article = $bdd->query('SELECT * FROM CDI_ARTICLE WHERE AR_NUMERO=\'A01\'');
-
+$fours = $bdd->queryAll('SELECT * FROM CDI_FOURNISSEUR');
 
 ?>
 

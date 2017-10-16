@@ -31,7 +31,7 @@ elseif (isset ($_POST['test'])? $_POST['test']: FALSE == "true") {
 }
 
 $client = $bdd->query('SELECT * FROM CDI_CLIENT WHERE CL_NUMERO=\'2\'');
-$pays = $bdd->query('SELECT * FROM CDI_PAYS');
+$pays = $bdd->queryAll('SELECT * FROM CDI_PAYS');
 
 ?>
 

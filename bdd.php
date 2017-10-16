@@ -13,9 +13,13 @@ class Bdd {
         return $this->bdd = new PDO('mysql:host='. _HOST.';dbname='. _DATABASE, _USER, _PASSWORD);
     }
 
+    public function queryAll($stat) {
+       return $this->bdd->query($stat)->fetchAll(PDO::FETCH_ASSOC);
+
+    }
     public function query($stat) {
-       // return $this->bdd->query($stat)->fetchAll(PDO::FETCH_ASSOC);
-		 return $this->bdd->query($stat)->fetch(PDO::FETCH_ASSOC);
+
+        return $this->bdd->query($stat)->fetch(PDO::FETCH_ASSOC);
     }
 
     public function getMaxId($carac, $table) {
@@ -43,19 +47,24 @@ class Bdd {
 
     }
 
-    public function update($table, $values) {
-        $requete = "UPTADE $table (";
-        foreach ($values as $key => $value) {
-            $requete = $requete . $key . ", ";
-        }
-        $requete = trim($requete, ', ');
-        $requete = $requete . ") SET (";
-        foreach ($values as $key => $value) {
-            $requete = $requete . ":" . $key . ", ";
-        }
-        $requete = trim($requete, ', ');
-        $requete = $requete . " )";
+    public function update($table, $values, $id) {
+        $requete = "UPTADE $table ";
 
+        $requete = $requete. " SET ";
+        foreach ($values as $key => $value) {
+            $requete = $requete . "$key = :" . $key . ", ";
+        }
+        $requete = trim($requete, ', ');
+        $requete = $requete . " WHERE ";
+        foreach ($id as $key => $value) {
+             $requete = $requete . "`".$key . "`= :". $key;
+        }
+
+        echo $requete;
+        echo '<PRE>';
+        $values = array_merge($values, $id);
+        var_dump($values);
+        echo '</PRE>';
         $stmt = $this->bdd->prepare($requete);
 
         $stmt->execute($values);

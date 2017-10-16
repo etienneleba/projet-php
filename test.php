@@ -22,7 +22,7 @@ $values = array(
 );
 
 $bdd->update('CDI_CLIENT', $values, array('CL_NUMERO' => 21));
-//$bdd->query("UPDATE `CDI_CLIENT` SET `CL_PRENOM`='PAULE' WHERE `CL_NUMERO`=21");
+
 
 
 

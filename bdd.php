@@ -19,10 +19,12 @@ class Bdd {
     }
     public function query($stat) {
 
+
         return $this->bdd->query($stat)->fetch(PDO::FETCH_ASSOC);
     }
 
     public function getMaxId($carac, $table) {
+
 
     }
 
@@ -48,7 +50,7 @@ class Bdd {
     }
 
     public function update($table, $values, $id) {
-        $requete = "UPTADE $table ";
+        $requete = "UPDATE $table ";
 
         $requete = $requete. " SET ";
         foreach ($values as $key => $value) {

@@ -13,16 +13,16 @@ $bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 
 $values = array(
-    'CL_NOM' => 'GERARD',
-    'CL_PRENOM' => 'PAULETTE',
+
+    'CL_PRENOM' => 'PAULO',
     'CL_PAYS' => 'F',
     'CL_LOCALITE' => 'CAEN',
     'CL_TYPE' => 'Particulier',
 
 );
 
-//$bdd->update('CDI_CLIENT', $values, array('CL_NUMERO' => 21));
-$bdd->query("UPDATE `CDI_CLIENT` SET `CL_PRENOM`='PAULE' WHERE `CL_NUMERO`=21");
+$bdd->update('CDI_CLIENT', $values, array('CL_NUMERO' => 21));
+//$bdd->query("UPDATE `CDI_CLIENT` SET `CL_PRENOM`='PAULE' WHERE `CL_NUMERO`=21");
 
 
 

@@ -57,7 +57,7 @@ if(isset($message['etat'])) {
         <label for="numéro">Numéro : <?php echo $client['CL_NUMERO'] ?> </label>
     </div>
     <div class="form-group">
-        <label for="fournisseur">Nom : </label>
+        <label for="nom">Nom : </label>
         <input type="text" class="form-control" id="nom" name="nom" value="<?php echo $client['CL_NOM'] ?>">
     </div>
 	<div class="form-group">

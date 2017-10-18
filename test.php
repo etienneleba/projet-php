@@ -1,5 +1,5 @@
 <?php
-require_once "bdd.php";
+/*require_once "bdd.php";
 
 
 $bdd = new bdd();
@@ -16,8 +16,10 @@ $values = array(
 
 );
 
-$bdd->update('CDI_CLIENT', $values, array('CL_NUMERO' => 21));
-
+$bdd->update('CDI_CLIENT', $values, array('CL_NUMERO' => 21));*/
+$var="AEÉŬ";
+$var=mb_strtolower($var);
+echo $var;
 
 
 ?>

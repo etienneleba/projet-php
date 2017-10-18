@@ -1,9 +1,7 @@
 <?php
-$prenom="'éæé-É'bé'";
+/*RAJOUTER A MAJ I MAJ ET TOUT DANS CONTIENT CHAR CHELOU*/
+$prenom="É";
 /*
-
-
-'éæé-É'Ŭé'
 'é !é-É'Ŭé'
 éé''éé--uù  gg
 Éééé--gg--gg
@@ -26,13 +24,14 @@ bénard     ébert
 b\\a
 b\a
 
+
 */
 $nom="roberts";
 $localite="étédae";
 $verif=new Verification();
 $prenom=$verif->verifEtCorrectionPrenom($prenom);
-$nom=$verif->verifEtCorrectionNom($nom);
-$localite=$verif->verifEtCorrectionLocalite($localite);
+/*$nom=$verif->verifEtCorrectionNom($nom);
+$localite=$verif->verifEtCorrectionLocalite($localite);*/
 if($prenom==false){
     echo "Prénom interdit";
 }else{
@@ -73,9 +72,10 @@ class Verification {
     {
         // transformer les caractères accentués en entités HTML
         $var = htmlentities($var, ENT_NOQUOTES);
-
         // Remplacer les ligatures tel que : Œ, Æ ...
         $var = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $var);
+
+        $var = html_entity_decode($var, ENT_NOQUOTES);
         return $var;
     }
 
@@ -201,11 +201,15 @@ class Verification {
 
     private function contientCharChelou($var){
         echo "avant contientCharChelou: ".$var."<br>";
-        if (!preg_match('/[A-Z][a-z]éàç\'-_ /', $var))
+        if (preg_match('/(?:(?![a-z0-9éàçùîïêèÉ_\'-]).)/', $var))
         {
+            echo"<br>il y a des chars speciaux<br>";
             return true;
+
         }else{
+            echo"<br>il n'y a pas de chars speciaux<br>";
             return false;
+
         }
     }
 
@@ -249,7 +253,7 @@ class Verification {
         echo'<br>Prenom avant enleverLigatures: '.$var2."<br>";
         $var2=$this->enleverLigatures($var2);
         echo'<br>Prenom après enleverLigatures: '.$var2."<br>";
-        for($i=0;$i<mb_strlen($var);$i++){
+        for($i=0;$i<mb_strlen($var2);$i++){
             $variable=mb_substr($var2,$i,1);
             echo "charactère n".$i."= ".$variable."<br>";
         }

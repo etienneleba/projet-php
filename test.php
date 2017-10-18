@@ -18,6 +18,7 @@ $bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 //
 //$bdd->update('CDI_CLIENT', $values, array('CL_NUMERO' => 21));
 
-echo $bdd->getMaxId('C', 'CDI_CLIENT');
+//echo $bdd->getMaxId('C', 'CDI_CLIENT');
+echo $bdd->deleter('CDI_CLIENT', 'CL', 'C59');
 
 ?>

@@ -25,6 +25,7 @@ class Bdd {
 
     public function getMaxId($carac, $table) {
 
+        return $carac . $this->query("select CONVERT(max(CONVERT(substr(`CL_NUMERO`,2),UNSIGNED INTEGER)), CHAR(55)) as ID from `$table`")['ID'];
 
     }
 

@@ -25,6 +25,7 @@ class Bdd {
 
     public function getMaxId($carac, $table) {
 
+        return $carac . $this->query("select CONVERT(max(CONVERT(substr(`CL_NUMERO`,2),UNSIGNED INTEGER)), CHAR(55)) as ID from `$table`")['ID'];
 
     }
 
@@ -71,6 +72,12 @@ class Bdd {
 
         $stmt->execute($values);
     }
-
+	
+	public function deleter($table, $colonne, $id){
+	$colonne=$colonne."_NUMERO";
+	$requete = "DELETE from `$table` WHERE `$colonne` = '$id';";
+	$stmt = $this->bdd->prepare($requete);
+	$stmt->execute();
+	}
 
 }

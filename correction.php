@@ -201,7 +201,7 @@ class Verification {
 
     private function contientCharChelou($var){
         echo "avant contientCharChelou: ".$var."<br>";
-        if (preg_match('/(?:(?![a-z0-9éàçùîïêèÉ_\'-]).)/', $var))
+        if (preg_match('/(?:(?![a-z0-9éàçùîïêèÉÀ_\'-]).)/', $var))
         {
             echo"<br>il y a des chars speciaux<br>";
             return true;

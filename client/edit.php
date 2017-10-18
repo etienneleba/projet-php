@@ -9,12 +9,15 @@ $bdd->connect();
 $bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
+if(isset($_GET['id'])){
+$id=$_GET['id'];
+}
+
 if(isset($_POST['nom']) && !empty($_POST['nom'])&&isset($_POST['prenom']) && !empty($_POST['prenom'])&&isset($_POST['pays']) && !empty($_POST['pays'])
-	&&isset($_POST['localite']) && !empty($_POST['localite'])&&isset($_POST['type']) && !empty($_POST['type'])) {
+	&&isset($_POST['localite']) && !empty($_POST['localite'])) {
 
 $client = array(
 
-    'CL_NUMERO' => '2',
     'CL_NOM' => isset ($_POST['nom'])? $_POST['nom']: '',
 	'CL_PRENOM' => isset ($_POST['prenom'])? $_POST['prenom']: '',
 	'CL_PAYS' => isset ($_POST['pays'])? $_POST['pays']: '',
@@ -23,14 +26,14 @@ $client = array(
 
 );
 
-    //$bdd->update('CDI_CLIENT', $client);
+    $bdd->update('CDI_CLIENT', $client, array('CL_NUMERO'=> $id));
     $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');
 }
 elseif (isset ($_POST['test'])? $_POST['test']: FALSE == "true") {
     $message = array('etat' => 'danger', 'message' => 'vous avez mal rempli le formulaire');
 }
 
-$client = $bdd->query('SELECT * FROM CDI_CLIENT WHERE CL_NUMERO=\'2\'');
+$client = $bdd->query("SELECT * FROM CDI_CLIENT WHERE CL_NUMERO='$id'");
 $pays = $bdd->queryAll('SELECT * FROM CDI_PAYS');
 
 ?>
@@ -57,7 +60,7 @@ if(isset($message['etat'])) {
         <label for="numéro">Numéro : <?php echo $client['CL_NUMERO'] ?> </label>
     </div>
     <div class="form-group">
-        <label for="fournisseur">Nom : </label>
+        <label for="nom">Nom : </label>
         <input type="text" class="form-control" id="nom" name="nom" value="<?php echo $client['CL_NOM'] ?>">
     </div>
 	<div class="form-group">

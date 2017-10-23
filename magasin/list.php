@@ -4,7 +4,7 @@ require_once '../bdd.php';
 
 $bdd = new Bdd();
 $bdd->connect();
-$magasins = $bdd->query("SELECT * FROM CDI_MAGASIN");
+$magasins = $bdd->queryAll("SELECT * FROM CDI_MAGASIN");
 
 
 ?>
@@ -20,6 +20,7 @@ $magasins = $bdd->query("SELECT * FROM CDI_MAGASIN");
                 <th>Numéro</th>
                 <th>Localité</th>
 				<th>Gérant</th>
+				<th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -31,6 +32,10 @@ $magasins = $bdd->query("SELECT * FROM CDI_MAGASIN");
             echo "<td>" . $magasin['MA_NUMERO'] . "</td>";
             echo "<td>" . $magasin['MA_LOCALITE'] . "</td>";
 			echo "<td>" . $magasin['MA_GERANT'] . "</td>";
+			echo '<div class="btn-group">';
+			echo '<td><a href="edit.php/?id='.$magasin['MA_NUMERO'].'"><button  class="btn btn-primary">Editer</button></a>';
+			echo '<button  class="btn btn-danger">Supprimer</button></td>';
+			echo '</div>';
         echo '</tr>';
     }
 

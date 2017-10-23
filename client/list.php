@@ -4,7 +4,7 @@ require_once '../bdd.php';
 
 $bdd = new Bdd();
 $bdd->connect();
-$clients = $bdd->query("SELECT * FROM CDI_CLIENT");
+$clients = $bdd->queryAll("SELECT * FROM CDI_CLIENT");
 ?>
 
 
@@ -20,6 +20,7 @@ $clients = $bdd->query("SELECT * FROM CDI_CLIENT");
                 <th>Prenom</th>
                 <th>Localité</th>
                 <th>Type</th>
+				<th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -33,6 +34,10 @@ $clients = $bdd->query("SELECT * FROM CDI_CLIENT");
             echo "<td>" . $client['CL_PRENOM'] . "</td>";
             echo "<td>" . $client['CL_LOCALITE'] . "</td>";
             echo "<td>" . $client['CL_TYPE'] . "</td>";
+			echo '<div class="btn-group">';
+			echo '<td><a href="edit.php/?id='.$client['CL_NUMERO'].'"><button  class="btn btn-primary">Editer</button></a>';
+			echo '<button  class="btn btn-danger">Supprimer</button></td>';
+			echo '</div>';
         echo '</tr>';
     }
 

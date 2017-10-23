@@ -17,6 +17,9 @@ class Bdd {
        return $this->bdd->query($stat)->fetchAll(PDO::FETCH_ASSOC);
 
     }
+
+
+
     public function query($stat) {
 
 
@@ -25,7 +28,7 @@ class Bdd {
 
     public function getMaxId($carac, $table) {
 
-        return $carac . $this->query("select CONVERT(max(CONVERT(substr(`CL_NUMERO`,2),UNSIGNED INTEGER)), CHAR(55)) as ID from `$table`")['ID'];
+        return $carac . $this->query("select CONVERT(max(CONVERT(substr(`CL_NUMERO`,2),UNSIGNED INTEGER))+1, CHAR(55)) as ID from `$table`")['ID'];
 
     }
 

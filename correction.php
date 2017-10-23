@@ -1,28 +1,39 @@
 <?php
-/*RAJOUTER A MAJ I MAJ ET TOUT DANS CONTIENT CHAR CHELOU*/
-$prenom="É";
+/*REVOIR POUR ESPACE SUPPERIEUR OU EGAL A 3*/
+/*REVOIR ' ' et ''*/
+$prenom="b\a";
 /*
-'é !é-É'Ŭé'
-éé''éé--uù  gg
-Éééé--gg--gg
-DE LA TR€UC
-DE LA TRUC
-ééééééééééééééééééééééééééééééééééééééééééééééé
-ùùùùùùùùùùùùùùùùùùùùùùùùùùùùùù
--péron-de - la   branche-
-'
-aa—bb—cc
-A' ' b
-A'
-'
-x
-A '' b
-bénard     ébert
-ÆøœŒøñ
-\a
-\\a
-b\\a
-b\a
+
+
+
+Ébé-ébé	EBE-EBE	Ebé-Ebé
+ébé-ébé	EBE-EBE	Ebé-Ebé
+ébé-Ébé	EBE-EBE	Ebé-Ebé
+éÉé-Ébé	EEE-EBE	Eéé-Ebé
+'éÉ'é-É'bé'	'EE'E-E'BE'	'Eé'E-E'Bé'
+'éæé-É'bé'	'EAEE-E'BE'	'Eaeé-E'Bé'
+'éæé-É'Ŭé'	'EAEE-E'UE' Ou interdit	'Eaeé-E'Ué' Ou interdit
+'é !é-É'Ŭé'	interdit	interdit
+éé''éé--uù  gg	EE'EE--UU GG Ou interdit	interdit   DEMANDER AU PROF
+Éééé--gg--gg	 interdit	interdit
+DE LA TR€UC	interdit	interdit
+DE LA TRUC	DE LA TRUC	De La Truc
+ééééééééééééééééééééééééééééééééééééééééééééééé	interdit	interdit
+ùùùùùùùùùùùùùùùùùùùùùùùùùùùùùù	UUUUUUUUUUUUUUUUUUUUUUUUUUUUUU	Uùùùùùùùùùùùùùùùùùùùùùùùùùùùùù
+-péron-de - la   branche-	PERON-DE-LA BRANCHE	Péron-De-La Branche
+'	interdit	interdit
+aa—bb—cc	interdit	interdit
+A' ' b	A' 'B	A' 'B A'	A'	A'
+'	interdit	interdit
+x	X	X
+A '' b	interdit	interdit
+bénard     ébert	BENARD EBERT	Bénard Ebert
+ÆøœŒøñ	AEOOEOEON	Aeooeoeon  DEMANDER AU PROF
+\a	interdit	interdit
+\\a	interdit	interdit
+b\\a	interdit	interdit
+b\a	interdit	interdit
+
 
 
 */
@@ -120,7 +131,7 @@ class Verification {
        /* echo "var= ".$var."<br>";*/
         /*var = se qu'il y a avant plus la premiere lettre plus
         ce qu'il y a après*/
-        $var=mb_substr($var1,0,$y).mb_strtoupper ( $var[$y]).mb_substr($var,$y+1);
+        $var=mb_substr($var1,0,$y).mb_strtoupper (mb_substr($var,$y,1)).mb_substr($var,$y+1);
         /*echo "var= ".$var."<br>";*/
         /*On parcours le mot en débutant à la première lettre du mot*/
         $i=$y;
@@ -201,7 +212,7 @@ class Verification {
 
     private function contientCharChelou($var){
         echo "avant contientCharChelou: ".$var."<br>";
-        if (preg_match('/(?:(?![a-z0-9éàçùîïêèÉÀ_\'-]).)/', $var))
+        if (preg_match('/(?:(?![a-z0-9A-Zéàçù îïêèÉÀ_\'-]).)/', $var))
         {
             echo"<br>il y a des chars speciaux<br>";
             return true;
@@ -226,25 +237,39 @@ class Verification {
 
     public function verifEtCorrectionNom($var){
         $var2=$var;
+        echo'<br>Prenom avant enleverLigatures: '.$var2."<br>";
+        $var2=$this->enleverLigatures($var2);
+        echo'<br>Prenom après enleverLigatures: '.$var2."<br>";
+        for($i=0;$i<mb_strlen($var2);$i++){
+            $variable=mb_substr($var2,$i,1);
+            echo "charactère n".$i."= ".$variable."<br>";
+        }
         if($this->contientCharChelou($var2)||$this->contientTropDeChars($var2)){
+            echo"contient chars chelous <br>";
             return false;
         }else {
-            $var2=$this->enleverAccents($var2);
             /*Si il y a au moins une lettre*/
-            if(preg_match('/[a-zA-Z]/',$var2)){
+            if(preg_match('/[a-zA-ZéàçùîïêèÉÀ]/',$var2)){
                 $var2=$this->remplacerCharSpecialPlusEspace($var2);
+                echo'<br>Prenom après remplacerCharSpecialPlusEspace: '.$var2;
                 $var2=$this->remplacerDoubleTir($var2);
+                echo'<br>Prenom après remplacerDoubleTir: '.$var2;
                 $var2=$this->remplacerDoubleApp($var2);
+                echo'<br>Prenom après remplacerDoubleApp: '.$var2;
                 $var2=$this->remplacerTripleTir($var2);
+                echo'<br>Prenom après remplacerTripleTir: '.$var2;
                 $var2=$this->enleverEspaceDebFin($var2);
+                echo'<br>Prenom après enleverEspaceDebFin: '.$var2;
                 /*$var2=$this->enleverTirAppDebFin($var2);*/
-                $var2=$this->garderA1TirApp($var2);
-                $var2=$this->majuscule($var2);
+                echo'<br>Prenom après enleverEspaceDebFin: '.$var2;
+                /*Majuscule premier enleve un accent et met en majuscule*/
+                $var2=$this->majusculePremier($var2);
+                echo'<br>Prenom après majusculePremier: '.$var2.'<br>';
             }else{
                 return false;
             }
             $var=$var2;
-            return $var2;
+            return $var;
         }
     }
 
@@ -262,7 +287,7 @@ class Verification {
             return false;
         }else {
             /*Si il y a au moins une lettre*/
-            if(preg_match('/[a-zA-Z]/',$var2)){
+            if(preg_match('/[a-zA-ZéàçùîïêèÉÀ]/',$var2)){
                 $var2=$this->remplacerCharSpecialPlusEspace($var2);
                 echo'<br>Prenom après remplacerCharSpecialPlusEspace: '.$var2;
                 $var2=$this->remplacerDoubleTir($var2);

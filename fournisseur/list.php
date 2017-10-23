@@ -4,8 +4,8 @@ require_once '../bdd.php';
 
 $bdd = new Bdd();
 $bdd->connect();
-$fournisseurs = $bdd->query("SELECT * FROM CDI_FOURNISSEUR");
-
+$fournisseurs = $bdd->queryAll("SELECT * FROM CDI_FOURNISSEUR");
+var_dump($fournisseurs);
 
 ?>
 
@@ -19,6 +19,7 @@ $fournisseurs = $bdd->query("SELECT * FROM CDI_FOURNISSEUR");
             <tr>
                 <th>Numéro</th>
                 <th>Fournisseur</th>
+				<th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -29,7 +30,12 @@ $fournisseurs = $bdd->query("SELECT * FROM CDI_FOURNISSEUR");
         echo '<tr>';
             echo "<td>" . $fournisseur['FO_NUMERO'] . "</td>";
             echo "<td>" . $fournisseur['FO_NOM'] . "</td>";
+			echo '<div class="btn-group">';
+			echo '<td><a href="edit.php/?id='.$fournisseur['FO_NUMERO'].'"><button  class="btn btn-primary">Editer</button></a>';
+			echo '<button  class="btn btn-danger">Supprimer</button></td>';
+			echo '</div>';
         echo '</tr>';
+		
     }
 
 ?>

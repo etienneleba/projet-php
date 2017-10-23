@@ -3,7 +3,7 @@
 <?php
 
 require_once '../bdd.php';
-//require_onde '..correction.php';
+require_onde '../correction.php';
 
 $bdd = new Bdd();
 $bdd->connect();

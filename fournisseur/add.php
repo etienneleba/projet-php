@@ -7,7 +7,7 @@ require_once '../bdd.php';
 
 $values = array(
 
-    'FO_NUMERO' => 'F07',
+    'FO_NUMERO' => getMaxId('F','CDI_FOURNISSEUR'),
     'FO_NOM' => isset ($_POST['fournisseur'])? $_POST['fournisseur']: '',
 
 );

@@ -1,7 +1,6 @@
 <?php
-/*REVOIR POUR ESPACE SUPPERIEUR OU EGAL A 3*/
-/*REVOIR ' ' et ''*/
-$prenom="b\a";
+/*REVOIR MAJUSCULE APRES DOUBLE TIRET*/
+$prenom="éééé--uù";
 /*
 
 
@@ -14,7 +13,7 @@ $prenom="b\a";
 'éæé-É'bé'	'EAEE-E'BE'	'Eaeé-E'Bé'
 'éæé-É'Ŭé'	'EAEE-E'UE' Ou interdit	'Eaeé-E'Ué' Ou interdit
 'é !é-É'Ŭé'	interdit	interdit
-éé''éé--uù  gg	EE'EE--UU GG Ou interdit	interdit   DEMANDER AU PROF
+éé''éé--uù  gg	EE'EE--UU GG Ou interdit	interdit
 Éééé--gg--gg	 interdit	interdit
 DE LA TR€UC	interdit	interdit
 DE LA TRUC	DE LA TRUC	De La Truc
@@ -28,7 +27,7 @@ A' ' b	A' 'B	A' 'B A'	A'	A'
 x	X	X
 A '' b	interdit	interdit
 bénard     ébert	BENARD EBERT	Bénard Ebert
-ÆøœŒøñ	AEOOEOEON	Aeooeoeon  DEMANDER AU PROF
+ÆøœŒøñ	AEOOEOEON	Aeooeoeon
 \a	interdit	interdit
 \\a	interdit	interdit
 b\\a	interdit	interdit
@@ -143,14 +142,26 @@ class Verification {
             /*On test si il y a un espace tiret, apostrophe ou underscore*/
             if($varCourant=='-'||$varCourant==' '||$varCourant=='_'||$varCourant=='\''){
                 $varCourantSuivant=mb_substr($var,$i+1,1);
+                $varCourantSuivantSuivant=mb_substr($var,$i+2,1);
                 /*Si la lettre d'après est definit*/
                 if(isset($varCourantSuivant)){
-                    /*On enlève l'accent sur cette lettre*/
-                    $varCourantSuivant=$this->enleverAccents($varCourantSuivant);
-                    /*Et on le met en majuscule*/
-                    $varCourantSuivant=mb_strtoupper ( $varCourantSuivant );
-                    $varSortant=$varSortant.$varCourant.$varCourantSuivant;
-                    $i=$i+2;
+                    if($varCourantSuivant=='-'){
+                        echo'<br>ya tiret apres tiret<br>';
+                        $varCourantSuivantSuivant=$this->enleverAccents($varCourantSuivantSuivant);
+                        /*Et on le met en majuscule*/
+                        $varCourantSuivantSuivant=mb_strtoupper ( $varCourantSuivantSuivant );
+                        $varSortant=$varSortant.$varCourant.$varCourantSuivant.$varCourantSuivantSuivant;
+                        $i=$i+3;
+                    }else{
+                        echo'<br>ya pas tiret apres tiret<br>';
+                        /*On enlève l'accent sur cette lettre*/
+                        $varCourantSuivant=$this->enleverAccents($varCourantSuivant);
+                        /*Et on le met en majuscule*/
+                        $varCourantSuivant=mb_strtoupper ( $varCourantSuivant );
+                        $varSortant=$varSortant.$varCourant.$varCourantSuivant;
+                        $i=$i+2;
+                    }
+
                 }
             }else {
                 $varSortant=$varSortant.$varCourant;
@@ -174,6 +185,11 @@ class Verification {
 
     private function remplacerDoubleTir($var){
         $var = preg_replace('/--/', '-', $var);
+        return $var;
+    }
+
+    private function remplacerTripleEspace($var){
+        $var = preg_replace('/   +/', ' ', $var);
         return $var;
     }
 
@@ -290,8 +306,8 @@ class Verification {
             if(preg_match('/[a-zA-ZéàçùîïêèÉÀ]/',$var2)){
                 $var2=$this->remplacerCharSpecialPlusEspace($var2);
                 echo'<br>Prenom après remplacerCharSpecialPlusEspace: '.$var2;
-                $var2=$this->remplacerDoubleTir($var2);
-                echo'<br>Prenom après remplacerDoubleTir: '.$var2;
+                $var2=$this->remplacerTripleEspace($var2);
+                echo'<br>Prenom après remplacerTripleEspace: '.$var2;
                 $var2=$this->remplacerDoubleApp($var2);
                 echo'<br>Prenom après remplacerDoubleApp: '.$var2;
                 $var2=$this->remplacerTripleTir($var2);

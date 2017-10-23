@@ -3,20 +3,21 @@
 require_once '../bdd.php';
 
 
-$values = [
-  'AR_NUMERO' => 'A56',
+
+$bdd = new Bdd();
+$bdd->connect();
+$fours = $bdd->queryAll('SELECT * FROM CDI_FOURNISSEUR');
+
+$values = array(
+  'AR_NUMERO' => $bdd->getMaxId('CDI_ARTICLE','AR'),
   'FO_NUMERO' => $_POST['four'],
   'AR_NOM' => $_POST['nom'],
   'AR_POIDS' => $_POST['poids'],
   'AR_COULEUR' => $_POST['couleur'],
-  'AR_STOCK' => $_POST['AR_STOCK'],
-];
+  'AR_STOCK' => $_POST['stock'],
+);
 
-$bdd = new Bdd();
-$bdd->connect();
-$fours = $bdd->query('SELECT * FROM CDI_FOURNISSEUR');
-
-if ( !empty($_POST["nom"]) && !empty($_POST["poids"]) && !empty($_POST["couleur"])&& !empty($_POST["stock"])
+if ( isset($_POST['nom']) && !empty($_POST['nom']) && isset($_POST['poids']) && !empty($_POST['poids']) && isset($_POST['couleur']) && !empty($_POST['couleur']) && isset($_POST['stock']) && !empty($_POST['stock']))
 	&& !empty($_POST["pa"])&& !empty($_POST["pv"])) {
 
 
@@ -28,7 +29,7 @@ if ( !empty($_POST["nom"]) && !empty($_POST["poids"]) && !empty($_POST["couleur"
         $message = array('etat' => 'danger', 'message' => 'vous avez mal rempli le formulaire');
     }
 
-$pays = $bdd->query('SELECT * FROM CDI_PAYS');
+$pays = $bdd->queryAll('SELECT * FROM CDI_PAYS');
 ?>
 
 
@@ -47,10 +48,10 @@ if(isset($message['etat'])) {
 ?>
 
     <form action="" method="post">
-        <div class="form-group">
-            <label for="nom">Nom : </label>
-            <input type="text" class="form-control" id="nom" name="nom" value="<?php echo $values['CL_NOM'] ?>">
-        </div>
+       <div class="form-group">
+        <label for="nom">Nom : </label>
+        <input type="text" class="form-control" id="nom" name="nom" value="<?php echo $values['AR_NOM'] ?>">
+    </div>
         <select name="four" class="custom-select">
             <?php
             foreach ($fours as $four) {

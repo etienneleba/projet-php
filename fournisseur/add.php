@@ -5,18 +5,17 @@
 require_once '../bdd.php';
 //require_onde '..correction.php';
 
-$values = array(
-
-    'FO_NUMERO' => 'F07',
-    'FO_NOM' => isset ($_POST['fournisseur'])? $_POST['fournisseur']: '',
-
-);
-
-
 $bdd = new Bdd();
 $bdd->connect();
 $bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
+$values = array(
+
+    'FO_NUMERO' => $bdd->getMaxId('CDI_FOURNISSEUR','FO'),
+    'FO_NOM' => isset ($_POST['fournisseur'])? $_POST['fournisseur']: '',
+
+);
 
 if(isset($_POST['fournisseur']) && !empty($_POST['fournisseur'])) {
 

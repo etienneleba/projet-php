@@ -3,10 +3,16 @@
 <?php
 
 require_once '../bdd.php';
-//require_onde '..correction.php';
+require_onde '../correction.php';
+
+$bdd = new Bdd();
+$bdd->connect();
+$bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 $values = array(
 
+	'CL_NUMERO' => $bdd->getMaxId('CDI_CLIENT','CL'),
     'CL_NOM' => isset ($_POST['nom'])? $_POST['nom']: '',
     'CL_PRENOM' => isset ($_POST['prenom'])? $_POST['prenom']: '',
     'CL_PAYS' => isset ($_POST['pays'])? $_POST['pays']: '',
@@ -15,15 +21,7 @@ $values = array(
 
 );
 
-
-$bdd = new Bdd();
-$bdd->connect();
-$bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-
 if(isset($_POST['nom']) && !empty($_POST['nom']) && isset($_POST['prenom']) && !empty($_POST['prenom']) && isset($_POST['pays']) && isset($_POST['localite']) && !empty($_POST['localite'] )) {
-
-
     $bdd->insert('CDI_CLIENT', $values);
     $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');
 }
@@ -32,7 +30,7 @@ elseif (isset ($_POST['test
     $message = array('etat' => 'danger', 'message' => 'vous avez mal rempli le formulaire');
 }
 
-$pays = $bdd->query('SELECT * FROM CDI_PAYS');
+$pays = $bdd->queryAll('SELECT * FROM CDI_PAYS');
 ?>
 
 

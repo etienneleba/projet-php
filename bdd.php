@@ -75,6 +75,12 @@ class Bdd {
 
         $stmt->execute($values);
     }
-
+	
+	public function deleter($table, $colonne, $id){
+	$colonne=$colonne."_NUMERO";
+	$requete = "DELETE from `$table` WHERE `$colonne` = '$id';";
+	$stmt = $this->bdd->prepare($requete);
+	$stmt->execute();
+	}
 
 }

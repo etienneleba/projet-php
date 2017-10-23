@@ -26,9 +26,9 @@ class Bdd {
         return $this->bdd->query($stat)->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getMaxId($carac, $table) {
+    public function getMaxId($table,  $colonne) {
 
-        return $carac . $this->query("select CONVERT(max(CONVERT(substr(`CL_NUMERO`,2),UNSIGNED INTEGER))+1, CHAR(55)) as ID from `$table`")['ID'];
+        return $colonne[0] . $this->query("select CONVERT(max(CONVERT(substr(`".$colonne."_NUMERO`,2),UNSIGNED INTEGER))+1, CHAR(55)) as ID from `$table`")['ID'];
 
     }
 

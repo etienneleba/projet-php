@@ -5,8 +5,14 @@
 require_once '../bdd.php';
 //require_onde '..correction.php';
 
+$bdd = new Bdd();
+$bdd->connect();
+$bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
 $values = array(
 
+	'CL_NUMERO' => $bdd->getMaxId('CDI_CLIENT','CL'),
     'CL_NOM' => isset ($_POST['nom'])? $_POST['nom']: '',
     'CL_PRENOM' => isset ($_POST['prenom'])? $_POST['prenom']: '',
     'CL_PAYS' => isset ($_POST['pays'])? $_POST['pays']: '',
@@ -15,14 +21,7 @@ $values = array(
 
 );
 
-
-$bdd = new Bdd();
-$bdd->connect();
-$bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-
 if(isset($_POST['nom']) && !empty($_POST['nom']) && isset($_POST['prenom']) && !empty($_POST['prenom']) && isset($_POST['pays']) && isset($_POST['localite']) && !empty($_POST['localite'] )) {
-    $values = array_merge($values, array('CL_NUMERO' => $bdd->getMaxId('C', 'CDI_CLIENT')));
     $bdd->insert('CDI_CLIENT', $values);
     $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');
 }

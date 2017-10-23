@@ -15,7 +15,7 @@ $id=$_GET['id'];
 
 $bdd->deleter('CDI_CLIENT','CL',$id);
 
-header('Location: list.php');
+header('Location: '.$_SERVER['HTTP_REFERER']);
 exit;
 
 ?>

@@ -5,18 +5,17 @@
 require_once '../bdd.php';
 //require_onde '..correction.php';
 
-$values = array(
-
-    'MA_NUMERO' => 'M13',
-    'MA_LOCALITE' => isset ($_POST['localite'])? $_POST['localite']: '',
-    'MA_GERANT' => isset ($_POST['nom'])&& isset($_POST['prenom'])? $_POST['nom'].' '.$_POST['prenom']: '',
-);
-
-
 $bdd = new Bdd();
 $bdd->connect();
 $bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
+$values = array(
+
+    'MA_NUMERO' => $bdd->getMaxId('CDI_MAGASIN','MA'),
+    'MA_LOCALITE' => isset ($_POST['localite'])? $_POST['localite']: '',
+    'MA_GERANT' => isset ($_POST['nom'])&& isset($_POST['prenom'])? $_POST['nom'].' '.$_POST['prenom']: '',
+);
 
 if(isset($_POST['nom']) && !empty($_POST['nom']) && isset($_POST['prenom']) && !empty($_POST['prenom']) && isset($_POST['localite']) && !empty($_POST['localite'] )) {
 

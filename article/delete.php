@@ -15,7 +15,7 @@ $id=$_GET['id'];
 
 $bdd->deleter('CDI_ARTICLE','AR',$id);
 
-header('Location: list.php');
+header('Location: '.$_SERVER['HTTP_REFERER']);
 exit;
 
 ?>

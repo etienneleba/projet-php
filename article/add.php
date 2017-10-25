@@ -17,8 +17,8 @@ $values = array(
   'AR_STOCK' => $_POST['stock'],
 );
 
-if ( isset($_POST['nom']) && !empty($_POST['nom']) && isset($_POST['poids']) && !empty($_POST['poids']) && isset($_POST['couleur']) && !empty($_POST['couleur']) && isset($_POST['stock']) && !empty($_POST['stock']))
-	&& !empty($_POST["pa"])&& !empty($_POST["pv"])) {
+if ( isset($_POST['nom']) && !empty($_POST['nom']) && isset($_POST['poids']) && !empty($_POST['poids']) && isset($_POST['couleur']) && !empty($_POST['couleur']) && isset($_POST['stock']) && !empty($_POST['stock'])
+	&& isset($_POST['pa']) && !empty($_POST['pa']) && isset($_POST['pv']) && !empty($_POST['pv'])) {
 
 
 

@@ -15,14 +15,9 @@ class Bdd {
 
     public function queryAll($stat) {
        return $this->bdd->query($stat)->fetchAll(PDO::FETCH_ASSOC);
-
     }
 
-
-
     public function query($stat) {
-
-
         return $this->bdd->query($stat)->fetch(PDO::FETCH_ASSOC);
     }
 
@@ -47,7 +42,7 @@ class Bdd {
         $requete = $requete . " )";
 
         $stmt = $this->bdd->prepare($requete);
-
+	
         $stmt->execute($values);
 
 

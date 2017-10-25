@@ -1,9 +1,8 @@
 <?php
-$nom="d";
-$prenom="d";
+
 /*
-
-
+REVOIR POUR ESPACE SUPPERIEUR OU EGAL A 3
+REVOIR ' ' et ''
 
 Ébé-ébé	EBE-EBE	Ebé-Ebé
 ébé-ébé	EBE-EBE	Ebé-Ebé
@@ -36,6 +35,7 @@ b\a	interdit	interdit
 
 
 */
+
 $localite="étédae";
 $verif=new Verification();
 $prenom=$verif->verifEtCorrectionPrenom($prenom);
@@ -56,6 +56,7 @@ if($localite==false){
 }else{
     echo '<br>Localité: '.$localite;
 }
+
 
 class Verification {
     private function majuscule($var)
@@ -344,6 +345,7 @@ class Verification {
     }
 
     public function verifEtCorrectionPrenom($var){
+
         if(isset($var)&&!empty($var)){
             $var2=$var;
             $var2=$this->remplacerTripleEspace($var2);
@@ -382,6 +384,7 @@ class Verification {
                 }
                 $var=$var2;
                 return $var;
+
             }
         }else {
             echo'<br>vide ou pas isset';

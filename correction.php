@@ -1,7 +1,7 @@
 <?php
 /*REVOIR POUR ESPACE SUPPERIEUR OU EGAL A 3*/
 /*REVOIR ' ' et ''*/
-$prenom="b\a";
+
 /*
 
 
@@ -37,27 +37,6 @@ b\a	interdit	interdit
 
 
 */
-$nom="roberts";
-$localite="étédae";
-$verif=new Verification();
-$prenom=$verif->verifEtCorrectionPrenom($prenom);
-/*$nom=$verif->verifEtCorrectionNom($nom);
-$localite=$verif->verifEtCorrectionLocalite($localite);*/
-if($prenom==false){
-    echo "Prénom interdit";
-}else{
-    echo 'Prenom: '.$prenom;
-}
-if($nom==false){
-    echo "Nom interdit";
-}else{
-    echo '<br>Nom: '.$nom;
-}
-if($localite==false){
-    echo "Localité interdit";
-}else{
-    echo '<br>Localité: '.$localite;
-}
 
 class Verification {
     private function majuscule($var)
@@ -284,7 +263,7 @@ class Verification {
         }
         if($this->contientCharChelou($var2)||$this->contientTropDeChars($var2)){
             echo"contient chars chelous <br>";
-            return false;
+            return null;
         }else {
             /*Si il y a au moins une lettre*/
             if(preg_match('/[a-zA-ZéàçùîïêèÉÀ]/',$var2)){
@@ -304,7 +283,7 @@ class Verification {
                 $var2=$this->majusculePremier($var2);
                 echo'<br>Prenom après majusculePremier: '.$var2.'<br>';
             }else{
-                return false;
+                return null;
             }
             $var=$var2;
             return $var;

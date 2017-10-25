@@ -4,7 +4,7 @@ require_once '../bdd.php';
 
 $bdd = new Bdd();
 $bdd->connect();
-$commandes = $bdd->queryAll("SELECT * FROM CDI_COMMANDE a INNER JOIN CDI_MAGASIN m ON a.MA_NUMERO=m.MA_NUMERO");
+$commandes = $bdd->queryAll("SELECT * FROM CDI_COMMANDE a INNER JOIN CDI_MAGASIN m ON a.MA_NUMERO=m.MA_NUMERO INNER JOIN CDI_CLIENT c ON a.CL_NUMERO=c.CL_NUMERO");
 ?>
 
 
@@ -19,6 +19,7 @@ $commandes = $bdd->queryAll("SELECT * FROM CDI_COMMANDE a INNER JOIN CDI_MAGASIN
                 <th>Client</th>
                 <th>Magasin</th>
                 <th>Date</th>
+				<th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -31,6 +32,7 @@ $commandes = $bdd->queryAll("SELECT * FROM CDI_COMMANDE a INNER JOIN CDI_MAGASIN
             echo "<td>" . $commande['CL_NOM'] . "</td>";
             echo "<td>" . $commande['MA_GERANT'] . "</td>";
             echo "<td>" . $commande['CO_DATE'] . "</td>";
+			var_dump($commande);
 			echo '<div class="btn-group">';
 			echo '<td><a href="edit.php/?id='.$commande['CO_NUMERO'].'"><button  class="btn btn-primary">Editer</button></a>';
 			echo '<a href="delete.php/?id='.$commande['CO_NUMERO'].'"><button  class="btn btn-danger">Supprimer</button></a></td>';

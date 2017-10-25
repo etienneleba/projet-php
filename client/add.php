@@ -16,23 +16,25 @@ $bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 $values = array(
     'CL_NUMERO' => $bdd->getMaxId('CDI_CLIENT', 'CL'),
-
-    'CL_NOM' => isset ($_POST['nom'])? $_POST['nom']: '',
-    'CL_PRENOM' => isset ($_POST['prenom'])? $verif->verifEtCorrectionPrenom($_POST['prenom']) : '',
+    'CL_NOM' => isset ($_POST['nom'])? $verif->verifEtCorrectionNom($_POST['nom']) : false,
+    'CL_PRENOM' => isset ($_POST['prenom'])? $verif->verifEtCorrectionPrenom($_POST['prenom']) : false,
     'CL_PAYS' => isset ($_POST['pays'])? $_POST['pays']: '',
-    'CL_LOCALITE' => isset ($_POST['localite'])? $_POST['localite']: '',
+    'CL_LOCALITE' => isset ($_POST['localite'])? $verif->verifEtCorrectionLocalite($_POST['localite']) : false,
     'CL_TYPE' => 'Particulier',
 
 );
 
 
-if(isset($_POST['nom']) && !empty($_POST['nom']) && isset($values['prenom']) && !empty($_POST['prenom']) && isset($_POST['pays']) && isset($_POST['localite']) && !empty($_POST['localite'] )) {
+if($values[1]!=false
+    &&$values[2]!=false
+    &&$values[3]!=false
+    &&$values[4]!=false
+    &&$values[5]!=false) {
 
     $bdd->insert('CDI_CLIENT', $values);
     $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');
 }
-elseif (isset ($_POST['test
-'])? $_POST['test']: FALSE == "true") {
+elseif (isset ($_POST['test'])? $_POST['test']: FALSE == "true") {
     $message = array('etat' => 'danger', 'message' => 'vous avez mal rempli le formulaire');
 }
 

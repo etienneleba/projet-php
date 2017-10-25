@@ -1,6 +1,6 @@
 <?php
-/*REVOIR MAJUSCULE APRES DOUBLE TIRET*/
-$prenom="éééé--uù";
+$nom="d";
+$prenom="d";
 /*
 
 
@@ -36,12 +36,11 @@ b\a	interdit	interdit
 
 
 */
-$nom="roberts";
 $localite="étédae";
 $verif=new Verification();
 $prenom=$verif->verifEtCorrectionPrenom($prenom);
-/*$nom=$verif->verifEtCorrectionNom($nom);
-$localite=$verif->verifEtCorrectionLocalite($localite);*/
+$nom=$verif->verifEtCorrectionNom($nom);
+$localite=$verif->verifEtCorrectionLocalite($localite);
 if($prenom==false){
     echo "Prénom interdit";
 }else{
@@ -200,16 +199,39 @@ class Verification {
         $var = str_replace(' _ ', '_', $var);
         $var = str_replace(' _', '_', $var);
         $var = str_replace('_ ', '_', $var);
-        if ($var.preg_match('//',$var))
-            $var = str_replace(' \' ', '\'', $var);
-        $var = str_replace(' \'', '\'', $var);
-        $var = str_replace('\' ', '\'', $var);
-        return $var;
+        $var = str_replace('\'\'', '\'', $var);
+        if(preg_match('/ \' /', $var)||preg_match('/\' /', mb_substr($var,0,2))||preg_match('/\' /', mb_substr(strlen($var)-1,2)))
+        {
+            return false;
+        }
     }
 
     private function remplacerTripleTir($var){
         $var = preg_replace('/--+/', '--', $var);
         return $var;
+    }
+
+    private function contientPlusDe2FoisDoubleTir($var){
+        $i=0;
+        $trouver=0;
+        do{
+            $varCourant =mb_substr($var,$i,1);
+            /*On test si il y a un espace tiret, apostrophe ou underscore*/
+            if($varCourant=='-'){
+                $varCourantSuivant=mb_substr($var,$i+1,1);
+                if($varCourantSuivant=='-'){
+                    $trouver++;
+                    $i=$i+2;
+                }else {
+                    $i++;
+                }
+            }
+        }while($i<mb_strlen($var));
+        if($trouver>=2){
+            return true;
+        }else {
+            return false;
+        }
     }
 
 /*    private function enleverTirAppDebFin($var){
@@ -227,6 +249,20 @@ class Verification {
     }
 
     private function contientCharChelou($var){
+        echo "avant contientCharChelou: ".$var."<br>";
+        if (preg_match('/(?:(?![a-zA-Zéàçù îïêèÉÀ_\'-]).)/', $var))
+        {
+            echo"<br>il y a des chars speciaux<br>";
+            return true;
+
+        }else{
+            echo"<br>il n'y a pas de chars speciaux<br>";
+            return false;
+
+        }
+    }
+
+    private function contientCharChelouPourLocalite($var){
         echo "avant contientCharChelou: ".$var."<br>";
         if (preg_match('/(?:(?![a-z0-9A-Zéàçù îïêèÉÀ_\'-]).)/', $var))
         {
@@ -252,102 +288,143 @@ class Verification {
 
 
     public function verifEtCorrectionNom($var){
-        $var2=$var;
-        echo'<br>Prenom avant enleverLigatures: '.$var2."<br>";
-        $var2=$this->enleverLigatures($var2);
-        echo'<br>Prenom après enleverLigatures: '.$var2."<br>";
-        for($i=0;$i<mb_strlen($var2);$i++){
-            $variable=mb_substr($var2,$i,1);
-            echo "charactère n".$i."= ".$variable."<br>";
-        }
-        if($this->contientCharChelou($var2)||$this->contientTropDeChars($var2)){
-            echo"contient chars chelous <br>";
-            return false;
-        }else {
-            /*Si il y a au moins une lettre*/
-            if(preg_match('/[a-zA-ZéàçùîïêèÉÀ]/',$var2)){
-                $var2=$this->remplacerCharSpecialPlusEspace($var2);
-                echo'<br>Prenom après remplacerCharSpecialPlusEspace: '.$var2;
-                $var2=$this->remplacerDoubleTir($var2);
-                echo'<br>Prenom après remplacerDoubleTir: '.$var2;
-                $var2=$this->remplacerDoubleApp($var2);
-                echo'<br>Prenom après remplacerDoubleApp: '.$var2;
-                $var2=$this->remplacerTripleTir($var2);
-                echo'<br>Prenom après remplacerTripleTir: '.$var2;
-                $var2=$this->enleverEspaceDebFin($var2);
-                echo'<br>Prenom après enleverEspaceDebFin: '.$var2;
-                /*$var2=$this->enleverTirAppDebFin($var2);*/
-                echo'<br>Prenom après enleverEspaceDebFin: '.$var2;
-                /*Majuscule premier enleve un accent et met en majuscule*/
-                $var2=$this->majusculePremier($var2);
-                echo'<br>Prenom après majusculePremier: '.$var2.'<br>';
-            }else{
-                return false;
+        if(isset($var)&&!empty($var)){
+            $var2=$var;
+            $var2=$this->remplacerTripleEspace($var2);
+            echo'<br>Prenom après remplacerTripleEspace: '.$var2;
+            echo'<br>Prenom avant enleverLigatures: '.$var2."<br>";
+            $var2=$this->enleverLigatures($var2);
+            echo'<br>Prenom après enleverLigatures: '.$var2."<br>";
+            for($i=0;$i<mb_strlen($var2);$i++){
+                $variable=mb_substr($var2,$i,1);
+                echo "charactère n".$i."= ".$variable."<br>";
             }
-            $var=$var2;
-            return $var;
+            if($this->contientCharChelou($var2)||$this->contientTropDeChars($var2)){
+                echo"contient chars chelous <br>";
+                return false;
+            }else {
+                $var2=$this->enleverAccents($var2);
+                /*Si il y a au moins une lettre*/
+                if(preg_match('/[a-zA-ZéàçùîïêèÉÀ]/',$var2)){
+                    if($this->remplacerCharSpecialPlusEspace($var2)==false){
+                        return false;
+                    }
+                    echo'<br>Prenom après remplacerCharSpecialPlusEspace: '.$var2;
+                    $var2=$this->remplacerDoubleTir($var2);
+                    echo'<br>Prenom après remplacerDoubleTir: '.$var2;
+                    $var2=$this->remplacerDoubleApp($var2);
+                    echo'<br>Prenom après remplacerDoubleApp: '.$var2;
+                    $var2=$this->remplacerTripleTir($var2);
+                    echo'<br>Prenom après remplacerTripleTir: '.$var2;
+                    if($this->contientPlusDe2FoisDoubleTir($var2)==true){
+                        return false;
+                    }
+                    $var2=$this->enleverEspaceDebFin($var2);
+                    echo'<br>Prenom après enleverEspaceDebFin: '.$var2;
+                    /*$var2=$this->enleverTirAppDebFin($var2);*/
+                    echo'<br>Prenom après enleverEspaceDebFin: '.$var2;
+                    /*Majuscule premier enleve un accent et met en majuscule*/
+                    $var2=$this->majuscule($var2);
+                    echo'<br>Prenom après majusculePremier: '.$var2.'<br>';
+                }else{
+                    return false;
+                }
+                $var=$var2;
+                return $var;
+            }
+        }else {
+            return false;
         }
     }
 
     public function verifEtCorrectionPrenom($var){
-        $var2=$var;
-        echo'<br>Prenom avant enleverLigatures: '.$var2."<br>";
-        $var2=$this->enleverLigatures($var2);
-        echo'<br>Prenom après enleverLigatures: '.$var2."<br>";
-        for($i=0;$i<mb_strlen($var2);$i++){
-            $variable=mb_substr($var2,$i,1);
-            echo "charactère n".$i."= ".$variable."<br>";
-        }
-        if($this->contientCharChelou($var2)||$this->contientTropDeChars($var2)){
-            echo"contient chars chelous <br>";
-            return false;
-        }else {
-            /*Si il y a au moins une lettre*/
-            if(preg_match('/[a-zA-ZéàçùîïêèÉÀ]/',$var2)){
-                $var2=$this->remplacerCharSpecialPlusEspace($var2);
-                echo'<br>Prenom après remplacerCharSpecialPlusEspace: '.$var2;
-                $var2=$this->remplacerTripleEspace($var2);
-                echo'<br>Prenom après remplacerTripleEspace: '.$var2;
-                $var2=$this->remplacerDoubleApp($var2);
-                echo'<br>Prenom après remplacerDoubleApp: '.$var2;
-                $var2=$this->remplacerTripleTir($var2);
-                echo'<br>Prenom après remplacerTripleTir: '.$var2;
-                $var2=$this->enleverEspaceDebFin($var2);
-                echo'<br>Prenom après enleverEspaceDebFin: '.$var2;
-                /*$var2=$this->enleverTirAppDebFin($var2);*/
-                echo'<br>Prenom après enleverEspaceDebFin: '.$var2;
-                /*Majuscule premier enleve un accent et met en majuscule*/
-                $var2=$this->majusculePremier($var2);
-                echo'<br>Prenom après majusculePremier: '.$var2.'<br>';
-            }else{
-                return false;
+        if(isset($var)&&!empty($var)){
+            $var2=$var;
+            $var2=$this->remplacerTripleEspace($var2);
+            echo'<br>Prenom après remplacerTripleEspace: '.$var2;
+            echo'<br>Prenom avant enleverLigatures: '.$var2."<br>";
+            $var2=$this->enleverLigatures($var2);
+            echo'<br>Prenom après enleverLigatures: '.$var2."<br>";
+            for($i=0;$i<mb_strlen($var2);$i++){
+                $variable=mb_substr($var2,$i,1);
+                echo "charactère n".$i."= ".$variable."<br>";
             }
-            $var=$var2;
-            return $var;
+            if($this->contientCharChelou($var2)||$this->contientTropDeChars($var2)){
+                echo"contient chars chelous <br>";
+                return false;
+            }else {
+                /*Si il y a au moins une lettre*/
+                if(preg_match('/[a-zA-ZéàçùîïêèÉÀ]/',$var2)){
+                    if($this->remplacerCharSpecialPlusEspace($var2)==false){
+                        return false;
+                    }
+                    echo'<br>Prenom après remplacerCharSpecialPlusEspace: '.$var2;
+                    $var2=$this->remplacerDoubleApp($var2);
+                    echo'<br>Prenom après remplacerDoubleApp: '.$var2;
+                    $var2=$this->remplacerTripleTir($var2);
+                    echo'<br>Prenom après remplacerDoubleTir: '.$var2;
+                    $var2=$this->enleverEspaceDebFin($var2);
+                    echo'<br>Prenom après enleverEspaceDebFin: '.$var2;
+                    /*$var2=$this->enleverTirAppDebFin($var2);*/
+                    echo'<br>Prenom après enleverEspaceDebFin: '.$var2;
+                    /*Majuscule premier enleve un accent et met en majuscule*/
+                    $var2=$this->majusculePremier($var2);
+                    echo'<br>Prenom après majusculePremier: '.$var2.'<br>';
+                }else{
+                    return false;
+                }
+                $var=$var2;
+                return $var;
+            }
+        }else {
+            return false;
         }
     }
 
     public function VerifEtCorrectionLocalite($var){
-        $var2=$var;
-        if($this->contientCharChelou($var)||$this->contientTropDeChars($var)){
-            return false;
-        }else {
-            $var2=$this->enleverAccents($var);
-            /*Si il y a au moins une lettre*/
-            if(preg_match('/[a-zA-Z]/',$var2)){
-                $var2=$this->remplacerCharSpecialPlusEspace($var2);
-                $var2=$this->remplacerDoubleTir($var2);
-                $var2=$this->remplacerDoubleApp($var2);
-                $var2=$this->remplacerTripleTir($var2);
-                $var2=$this->enleverEspaceDebFin($var2);
-                /*$var2=$this->enleverTirAppDebFin($var2);*/
-                $var2=$this->garderA1TirApp($var2);
-                $var2=$this->majuscule($var2);
-            }else{
-                return false;
+        if(isset($var)&&!empty($var)){
+            $var2=$var;
+            $var2=$this->remplacerTripleEspace($var2);
+            echo'<br>Prenom après remplacerTripleEspace: '.$var2;
+            echo'<br>Prenom avant enleverLigatures: '.$var2."<br>";
+            $var2=$this->enleverLigatures($var2);
+            echo'<br>Prenom après enleverLigatures: '.$var2."<br>";
+            for($i=0;$i<mb_strlen($var2);$i++){
+                $variable=mb_substr($var2,$i,1);
+                echo "charactère n".$i."= ".$variable."<br>";
             }
-            $var=$var2;
-            return $var2;
+            if($this->contientCharChelouPourLocalite($var2)||$this->contientTropDeChars($var2)){
+                echo"contient chars chelous <br>";
+                return false;
+            }else {
+                $var2=$this->enleverAccents($var2);
+                /*Si il y a au moins une lettre*/
+                if(preg_match('/[a-zA-ZéàçùîïêèÉÀ]/',$var2)){
+                    if($this->remplacerCharSpecialPlusEspace($var2)==false){
+                        return false;
+                    }
+                    echo'<br>Prenom après remplacerCharSpecialPlusEspace: '.$var2;
+                    $var2=$this->remplacerDoubleTir($var2);
+                    echo'<br>Prenom après remplacerDoubleTir: '.$var2;
+                    $var2=$this->remplacerDoubleApp($var2);
+                    echo'<br>Prenom après remplacerDoubleApp: '.$var2;
+                    $var2=$this->remplacerTripleTir($var2);
+                    echo'<br>Prenom après remplacerTripleTir: '.$var2;
+                    $var2=$this->enleverEspaceDebFin($var2);
+                    echo'<br>Prenom après enleverEspaceDebFin: '.$var2;
+                    /*$var2=$this->enleverTirAppDebFin($var2);*/
+                    echo'<br>Prenom après enleverEspaceDebFin: '.$var2;
+                    /*Majuscule premier enleve un accent et met en majuscule*/
+                    $var2=$this->majuscule($var2);
+                    echo'<br>Prenom après majusculePremier: '.$var2.'<br>';
+                }else{
+                    return false;
+                }
+                $var=$var2;
+                return $var;
+            }
+        }else {
+            return false;
         }
     }
 

@@ -1,9 +1,8 @@
 <?php
-$nom="d";
-$prenom="d";
+
 /*
-
-
+REVOIR POUR ESPACE SUPPERIEUR OU EGAL A 3
+REVOIR ' ' et ''
 
 Ébé-ébé	EBE-EBE	Ebé-Ebé
 ébé-ébé	EBE-EBE	Ebé-Ebé
@@ -36,6 +35,7 @@ b\a	interdit	interdit
 
 
 */
+
 $localite="étédae";
 $verif=new Verification();
 $prenom=$verif->verifEtCorrectionPrenom($prenom);
@@ -56,6 +56,7 @@ if($localite==false){
 }else{
     echo '<br>Localité: '.$localite;
 }
+
 
 class Verification {
     private function majuscule($var)
@@ -202,8 +203,10 @@ class Verification {
         $var = str_replace('\'\'', '\'', $var);
         if(preg_match('/ \' /', $var)||preg_match('/\' /', mb_substr($var,0,2))||preg_match('/\' /', mb_substr(strlen($var)-1,2)))
         {
-            return false;
+            echo'<br>pregmatch de mes couilles';
+            return true;
         }
+        return false;
     }
 
     private function remplacerTripleTir($var){
@@ -225,6 +228,8 @@ class Verification {
                 }else {
                     $i++;
                 }
+            }else {
+                $i++;
             }
         }while($i<mb_strlen($var));
         if($trouver>=2){
@@ -306,7 +311,8 @@ class Verification {
                 $var2=$this->enleverAccents($var2);
                 /*Si il y a au moins une lettre*/
                 if(preg_match('/[a-zA-ZéàçùîïêèÉÀ]/',$var2)){
-                    if($this->remplacerCharSpecialPlusEspace($var2)==false){
+                    if($this->remplacerCharSpecialPlusEspace($var2)==true){
+                        echo'<br>\'dvf';
                         return false;
                     }
                     echo'<br>Prenom après remplacerCharSpecialPlusEspace: '.$var2;
@@ -333,11 +339,13 @@ class Verification {
                 return $var;
             }
         }else {
+            echo'<br>vide ou pas isset';
             return false;
         }
     }
 
     public function verifEtCorrectionPrenom($var){
+
         if(isset($var)&&!empty($var)){
             $var2=$var;
             $var2=$this->remplacerTripleEspace($var2);
@@ -355,7 +363,8 @@ class Verification {
             }else {
                 /*Si il y a au moins une lettre*/
                 if(preg_match('/[a-zA-ZéàçùîïêèÉÀ]/',$var2)){
-                    if($this->remplacerCharSpecialPlusEspace($var2)==false){
+                    if($this->remplacerCharSpecialPlusEspace($var2)==true){
+                        echo'<br>\'dvf';
                         return false;
                     }
                     echo'<br>Prenom après remplacerCharSpecialPlusEspace: '.$var2;
@@ -375,8 +384,10 @@ class Verification {
                 }
                 $var=$var2;
                 return $var;
+
             }
         }else {
+            echo'<br>vide ou pas isset';
             return false;
         }
     }
@@ -400,7 +411,8 @@ class Verification {
                 $var2=$this->enleverAccents($var2);
                 /*Si il y a au moins une lettre*/
                 if(preg_match('/[a-zA-ZéàçùîïêèÉÀ]/',$var2)){
-                    if($this->remplacerCharSpecialPlusEspace($var2)==false){
+                    if($this->remplacerCharSpecialPlusEspace($var2)==true){
+                        echo'<br>\'dvf';
                         return false;
                     }
                     echo'<br>Prenom après remplacerCharSpecialPlusEspace: '.$var2;
@@ -424,6 +436,7 @@ class Verification {
                 return $var;
             }
         }else {
+            echo'<br>vide ou pas isset';
             return false;
         }
     }

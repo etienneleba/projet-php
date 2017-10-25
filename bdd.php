@@ -42,7 +42,7 @@ class Bdd {
         $requete = $requete . " )";
 
         $stmt = $this->bdd->prepare($requete);
-
+	
         $stmt->execute($values);
 
 

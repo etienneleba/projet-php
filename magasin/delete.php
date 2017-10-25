@@ -13,7 +13,7 @@ $id=$_GET['id'];
 }
 
 
-$bdd->deleter('CDI_CLIENT','CL',$id);
+$bdd->deleter('CDI_MAGASIN','MA',$id);
 
 header('Location: '.$_SERVER['HTTP_REFERER']);
 exit;

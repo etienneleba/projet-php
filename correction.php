@@ -353,12 +353,12 @@ class Verification {
             }
             if($this->contientCharChelou($var2)||$this->contientTropDeChars($var2)){
                 echo"contient chars chelous <br>";
-                return false;
+                return '';
             }else {
                 /*Si il y a au moins une lettre*/
                 if(preg_match('/[a-zA-ZéàçùîïêèÉÀ]/',$var2)){
                     if($this->remplacerCharSpecialPlusEspace($var2)==false){
-                        return false;
+                        return '';
                     }
                     echo'<br>Prenom après remplacerCharSpecialPlusEspace: '.$var2;
                     $var2=$this->remplacerDoubleApp($var2);
@@ -373,7 +373,7 @@ class Verification {
                     $var2=$this->majusculePremier($var2);
                     echo'<br>Prenom après majusculePremier: '.$var2.'<br>';
                 }else{
-                    return false;
+                    return '';
                 }
                 $var=$var2;
                 return $var;

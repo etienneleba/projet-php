@@ -17,7 +17,7 @@ $bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 $values = array(
     'CL_NUMERO' => $bdd->getMaxId('CDI_CLIENT', 'CL'),
 
-    'CL_NOM' => isset ($_POST['nom'])? $_POST['nom']: '',
+    'CL_NOM' => isset ($_POST['nom'])? $_POST['nom']: false,
     'CL_PRENOM' => isset ($_POST['prenom'])? $verif->verifEtCorrectionPrenom($_POST['prenom']) : '',
     'CL_PAYS' => isset ($_POST['pays'])? $_POST['pays']: '',
     'CL_LOCALITE' => isset ($_POST['localite'])? $_POST['localite']: '',
@@ -26,7 +26,7 @@ $values = array(
 );
 
 
-if(isset($_POST['nom']) && !empty($_POST['nom']) && isset($values['prenom']) && !empty($_POST['prenom']) && isset($_POST['pays']) && isset($_POST['localite']) && !empty($_POST['localite'] )) {
+if($values['CL_PRENOM']) {
 
     $bdd->insert('CDI_CLIENT', $values);
     $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');
@@ -59,7 +59,7 @@ if(isset($message['etat'])) {
 <form action="" method="post">
     <div class="form-group">
         <label for="nom">Nom : </label>
-        <input type="text" class="form-control" id="nom" name="nom" value="<?php echo $values['CL_NOM'] ?>">
+        <input type="text" class="form-control" id="nom" name="nom" value="<?php if(!$values['CL_NOM']){echo '';} ?>">
     </div>
     <div class="form-group">
             <label for="prenom">Prenom : </label>
@@ -78,7 +78,7 @@ if(isset($message['etat'])) {
                 }
             }
 
-?>
+            ?>
         </select>
 
     </div>

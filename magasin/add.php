@@ -3,7 +3,10 @@
 <?php
 
 require_once '../bdd.php';
-//require_onde '..correction.php';
+require_once '../correction.php';
+
+
+$verif = new Verification();
 
 $bdd = new Bdd();
 $bdd->connect();
@@ -13,11 +16,13 @@ $bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 $values = array(
 
     'MA_NUMERO' => $bdd->getMaxId('CDI_MAGASIN','MA'),
-    'MA_LOCALITE' => isset ($_POST['localite'])? $_POST['localite']: '',
-    'MA_GERANT' => isset ($_POST['nom'])&& isset($_POST['prenom'])? $_POST['nom'].' '.$_POST['prenom']: '',
+    'MA_LOCALITE' => isset ($_POST['localite'])? $_POST['localite']: false,
+    'MA_GERANT' => isset ($_POST['nom'])&& isset($_POST['prenom'])? $_POST['nom'].' '.$_POST['prenom']: false,
 );
 
-if(isset($_POST['nom']) && !empty($_POST['nom']) && isset($_POST['prenom']) && !empty($_POST['prenom']) && isset($_POST['localite']) && !empty($_POST['localite'] )) {
+if($values['MA_NUMERO']!=false
+	&&$values['MA_LOCALITE']!=false
+	&&$values['MA_GERANT']!=false) {
 
 
     $bdd->insert('CDI_MAGASIN', $values);

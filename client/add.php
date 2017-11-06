@@ -25,11 +25,11 @@ $values = array(
 );
 
 
-if($values[1]!=false
-    &&$values[2]!=false
-    &&$values[3]!=false
-    &&$values[4]!=false
-    &&$values[5]!=false) {
+if($values['CL_NUMERO']!=false
+    &&$values['CL_NOM']!=false
+    &&$values['CL_PAYS']!=false
+    &&$values['CL_LOCALITE']!=false
+    &&$values['CL_TYPE']!=false) {
 
     $bdd->insert('CDI_CLIENT', $values);
     $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');

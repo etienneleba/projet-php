@@ -3,8 +3,10 @@
 <?php
 
 require_once '../bdd.php';
-//require_onde '..correction.php';
+require_once '../correction.php';
 
+
+$verif = new Verification();
 
 
 $bdd = new Bdd();
@@ -19,7 +21,7 @@ $values = array(
 
 );
 
-if($values['FO_NUMERO']!=false,
+if($values['FO_NUMERO']!=false
    &&$values['FO_NOM']!=false) {
 
 

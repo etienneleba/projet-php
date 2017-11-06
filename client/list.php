@@ -35,8 +35,8 @@ $clients = $bdd->queryAll("SELECT * FROM CDI_CLIENT");
             echo "<td>" . $client['CL_LOCALITE'] . "</td>";
             echo "<td>" . $client['CL_TYPE'] . "</td>";
 			echo '<div class="btn-group">';
-			echo '<td><a href="edit.php/?id='.$client['CL_NUMERO'].'"><button  class="btn btn-primary">Editer</button></a>';
-			echo '<a href="delete.php/?id='.$client['CL_NUMERO'].'"><button  class="btn btn-danger">Supprimer</button></a></td>';
+			echo '<td><a href="edit.php?id='.$client['CL_NUMERO'].'"><button  class="btn btn-primary">Editer</button></a>';
+			echo '<a href="delete.php?id='.$client['CL_NUMERO'].'"><button  class="btn btn-danger">Supprimer</button></a></td>';
 			echo '</div>';
         echo '</tr>';
     }

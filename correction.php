@@ -363,14 +363,9 @@ class Verification {
             }else {
                 /*Si il y a au moins une lettre*/
                 if(preg_match('/[a-zA-ZéàçùîïêèÉÀ]/',$var2)){
-<<<<<<< HEAD
-                    if($this->remplacerCharSpecialPlusEspace($var2)==false){
-                        return '';
-=======
                     if($this->remplacerCharSpecialPlusEspace($var2)==true){
-                        echo'<br>\'dvf';
+
                         return false;
->>>>>>> 8f682908117bced91ddeef76a7bed54aca4f6051
                     }
                     echo'<br>Prenom après remplacerCharSpecialPlusEspace: '.$var2;
                     $var2=$this->remplacerDoubleApp($var2);

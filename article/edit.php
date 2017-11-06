@@ -3,7 +3,11 @@
 <?php
 
 require_once '../bdd.php';
-//require_once '..correction.php';
+require_once '../correction.php';
+
+$verif = new Verification();
+
+
 $bdd = new Bdd();
 $bdd->connect();
 $bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -19,9 +23,9 @@ $article = array(
 
     
 	'FO_NUMERO' => isset ($_POST['fournisseur'])? $_POST['fournisseur']: '',
-	'AR_NOM' => isset ($_POST['nom'])? $_POST['nom']: '',
+	'AR_NOM' => isset ($_POST['nom'])? $verif->verifEtCorrectionNom($_POST['nom']) : false,
 	'AR_POIDS' => isset ($_POST['poids'])? $_POST['poids']: '',
-	'AR_COULEUR' => isset ($_POST['couleur'])? $_POST['couleur']: '',
+	'AR_COULEUR' => isset ($_POST['couleur'])? $verif->verifEtCorrectionNom($_POST['couleur']) : false,
 	'AR_STOCK' => isset ($_POST['stock'])? $_POST['stock']: '',
 	'AR_PA' => isset ($_POST['pa'])? $_POST['pa']: '',
 	'AR_PV' => isset ($_POST['pv'])? $_POST['pv']: '',

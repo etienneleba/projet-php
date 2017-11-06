@@ -5,6 +5,9 @@
 require_once '../bdd.php';
 require_once '../correction.php';
 
+
+$verif = new Verification();
+
 $bdd = new Bdd();
 $bdd->connect();
 $bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -19,10 +22,10 @@ if(isset($_POST['nom']) && !empty($_POST['nom'])&&isset($_POST['prenom']) && !em
 
 $client = array(
 
-    'CL_NOM' => isset ($_POST['nom'])? $_POST['nom']: '',
-	'CL_PRENOM' => isset ($_POST['prenom'])? $_POST['prenom']: '',
+    'CL_NOM' => isset ($_POST['nom'])? $verif->verifEtCorrectionNom($_POST['nom']) : false,
+	'CL_PRENOM' => isset ($_POST['prenom'])? $verif->verifEtCorrectionPrenom($_POST['prenom']) : false,
 	'CL_PAYS' => isset ($_POST['pays'])? $_POST['pays']: '',
-	'CL_LOCALITE' => isset ($_POST['localite'])? $_POST['localite']: '',
+	'CL_LOCALITE' => isset ($_POST['localite'])? $verif->verifEtCorrectionLocalite($_POST['localite']) : false,
 	'CL_TYPE' => isset ($_POST['type'])? $_POST['type']: '',
 
 );

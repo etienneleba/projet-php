@@ -18,7 +18,7 @@ if(isset($_POST['fournisseur']) && !empty($_POST['fournisseur'])) {
 $fournisseur = array(
 
     
-    'FO_NOM' => isset ($_POST['fournisseur'])? $_POST['fournisseur']: '',
+    'FO_NOM' => isset ($_POST['fournisseur'])? $verif->verifEtCorrectionNom($_POST['fournisseur']) : false,
 
 );
 

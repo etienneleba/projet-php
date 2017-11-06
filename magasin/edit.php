@@ -3,11 +3,14 @@
 <?php
 
 require_once '../bdd.php';
-//require_onde '..correction.php';
+require_once '../correction.php';
 $bdd = new Bdd();
 $bdd->connect();
 $bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
+
+$verif = new Verification();
 
 if(isset($_GET['id'])){
 $id=$_GET['id'];
@@ -17,8 +20,8 @@ if(isset($_POST['localite']) && !empty($_POST['localite'])&&isset($_POST['gerant
 
 $magasin = array(
 
-	'MA_LOCALITE' => isset ($_POST['localite'])? $_POST['localite']: '',
-	'MA_GERANT' => isset ($_POST['gerant'])? $_POST['gerant']: '',
+	'MA_LOCALITE' => isset ($_POST['localite'])? $verif->verifEtCorrectionLocalite($_POST['localite']) : false,
+	'MA_GERANT' => isset ($_POST['gerant'])? $verif->verifEtCorrectionNom($_POST['gerant']) : false,
 
 );
 

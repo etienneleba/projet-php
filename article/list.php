@@ -41,8 +41,8 @@ $articles = $bdd->queryAll("SELECT * FROM CDI_ARTICLE a INNER JOIN CDI_FOURNISSE
 			echo "<td>" . $article['AR_PA'] . "</td>";
 			echo "<td>" . $article['AR_PV'] . "</td>";
 			echo '<div class="btn-group">';
-			echo '<td><a href="edit.php/?id='.$article['AR_NUMERO'].'"><button  class="btn btn-primary">Editer</button></a>';
-			echo '<a href="delete.php/?id='.$article['AR_NUMERO'].'"><button  class="btn btn-danger">Supprimer</button></a></td>';
+			echo '<td><a href="edit.php?id='.$article['AR_NUMERO'].'"><button  class="btn btn-primary">Editer</button></a>';
+			echo '<a href="delete.php?id='.$article['AR_NUMERO'].'"><button  class="btn btn-danger">Supprimer</button></a></td>';
 			echo '</div>';
         echo '</tr>';
     }

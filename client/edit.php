@@ -3,7 +3,8 @@
 <?php
 
 require_once '../bdd.php';
-//require_onde '..correction.php';
+require_once '../correction.php';
+
 $bdd = new Bdd();
 $bdd->connect();
 $bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

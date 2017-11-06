@@ -3,6 +3,7 @@
 require_once '../bdd.php';
 require_once '../correction.php';
 
+$verif = new Verification();
 
 $bdd = new Bdd();
 $bdd->connect();
@@ -10,19 +11,27 @@ $bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 $fours = $bdd->queryAll('SELECT * FROM CDI_FOURNISSEUR');
 
+
+
 $values = array(
   'AR_NUMERO' => $bdd->getMaxId('CDI_ARTICLE','AR'),
-  'FO_NUMERO' => isset($_POST['four'])? $_POST['four']: '',
-  'AR_NOM' =>  isset ($_POST['nom'])? $_POST['nom']: '',
-  'AR_POIDS' => isset ($_POST['poids'])? $_POST['poids']: '',
-  'AR_COULEUR' => isset ($_POST['couleur'])? $_POST['couleur']: '',
-  'AR_STOCK' => isset ($_POST['stock'])? $_POST['stock']: '',
-  'AR_PA' => isset ($_POST['pa'])? $_POST['pa']: '',
-  'AR_PV' => isset ($_POST['pv'])? $_POST['pv']: '',
+  'FO_NUMERO' => isset($_POST['four'])? $_POST['four']: false,
+  'AR_NOM' =>  isset ($_POST['nom'])? $verif->verifEtCorrectionNom($_POST['nom']) : false,
+  'AR_POIDS' => isset ($_POST['poids'])? $_POST['poids']: false,
+  'AR_COULEUR' => isset ($_POST['couleur'])? $_POST['couleur']: false,
+  'AR_STOCK' => isset ($_POST['stock'])? $_POST['stock']: false,
+  'AR_PA' => isset ($_POST['pa'])? $_POST['pa']: false,
+  'AR_PV' => isset ($_POST['pv'])? $_POST['pv']: false,
 );
 
-if ( isset($_POST['nom']) && !empty($_POST['nom']) && isset($_POST['poids']) && !empty($_POST['poids']) && isset($_POST['couleur']) && !empty($_POST['couleur']) && isset($_POST['stock']) && !empty($_POST['stock'])
-	&& isset($_POST['pa']) && !empty($_POST['pa']) && isset($_POST['pv']) && !empty($_POST['pv'])) {
+if ( $values['AR_NUMERO']!=false
+	 &&$values['FO_NUMERO']!=false
+	 &&$values['AR_NOM']!=false
+	 &&$values['AR_POIDS']!=false
+	 &&$values['AR_COULEUR']!=false
+	 &&$values['AR_STOCK']!=false
+	 &&$values['AR_PA']!=false
+	 &&$values['AR_PV']!=false) {
         $bdd->insert('CDI_ARTICLE', $values);
         $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');
     }

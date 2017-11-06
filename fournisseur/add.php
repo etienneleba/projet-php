@@ -3,7 +3,11 @@
 <?php
 
 require_once '../bdd.php';
-//require_onde '..correction.php';
+require_once '../correction.php';
+
+
+$verif = new Verification();
+
 
 $bdd = new Bdd();
 $bdd->connect();
@@ -13,11 +17,12 @@ $bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 $values = array(
 
     'FO_NUMERO' => $bdd->getMaxId('CDI_FOURNISSEUR','FO'),
-    'FO_NOM' => isset ($_POST['fournisseur'])? $_POST['fournisseur']: '',
+    'FO_NOM' => isset ($_POST['fournisseur'])? $verif->verifEtCorrectionNom($_POST['fournisseur']) : false,
 
 );
 
-if(isset($_POST['fournisseur']) && !empty($_POST['fournisseur'])) {
+if($values['FO_NUMERO']!=false
+   &&$values['FO_NOM']!=false) {
 
 
     $bdd->insert('CDI_FOURNISSEUR', $values);

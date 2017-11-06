@@ -3,6 +3,7 @@
 require_once '../bdd.php';
 require_once '../correction.php';
 
+$verif = new Verification();
 
 $bdd = new Bdd();
 $bdd->connect();
@@ -13,12 +14,15 @@ $magasins = $bdd->queryAll('SELECT * FROM CDI_MAGASIN');
 
 $values = array(
   'CO_NUMERO' => $bdd->getMaxId('CDI_COMMANDE','CO'),
-  'MA_NUMERO' => isset($_POST['magasin'])? $_POST['magasin']: '',
-  'CL_NUMERO' => isset($_POST['client'])? $_POST['client']: '',
-  'CO_DATE' => isset ($_POST['date'])? $_POST['date']: '',
+  'MA_NUMERO' => isset($_POST['magasin'])? $_POST['magasin']: false,
+  'CL_NUMERO' => isset($_POST['client'])? $_POST['client']: false,
+  'CO_DATE' => isset ($_POST['date'])? $_POST['date']: false,
 );
 
-	if ( isset($_POST['magasin']) && !empty($_POST['magasin']) && isset($_POST['client']) && !empty($_POST['client']) && isset($_POST['date']) && !empty($_POST['date'])){
+	if ( $values['CO_NUMERO']!=false
+		 &&$values['MA_NUMERO']!=false
+		 &&$values['CL_NUMERO']!=false
+		 &&$values['CO_DATE']!=false){
 
         $bdd->insert('CDI_COMMANDE', $values);
         $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');
@@ -61,8 +65,8 @@ if(isset($message['etat'])) {
 
             ?>
         </select>
-		 </div>
-		<div class="form-group">
+	</div>
+	<div class="form-group">
             <label for="nom">Magasin : </label><br>
         <select name="magasin" class="custom-select">
             <?php
@@ -77,11 +81,11 @@ if(isset($message['etat'])) {
 
             ?>
         </select>
-		 </div>
-		 <div class="form-group">
+	</div>
+	<div class="form-group">
         <label for="nom">Date : </label>
         <input type="date" class="form-control" id="date" name="date" value="<?php echo $values['CO_DATE'] ?>">
-		</div>
+	</div>
 	<input type="hidden" value="true" name="test">
     <button type="submit" class="btn btn-primary">Envoyer</button>
     </form>

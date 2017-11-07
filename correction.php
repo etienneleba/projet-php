@@ -283,7 +283,7 @@ class Verification {
 
 
     private function contientTropDeChars($var){
-        if (mb_strlen($var)>=25)
+        if (mb_strlen($var)>25)
         {
             return true;
         }else{

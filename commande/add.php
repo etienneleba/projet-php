@@ -7,10 +7,11 @@ $verif = new Verification();
 
 $bdd = new Bdd();
 $bdd->connect();
-$bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
 $clients = $bdd->queryAll('SELECT * FROM CDI_CLIENT');
 $magasins = $bdd->queryAll('SELECT * FROM CDI_MAGASIN');
+$articles = $bdd->queryAll('SELECT * FROM CDI_ARTICLE');
+
 
 $values = array(
   'CO_NUMERO' => $bdd->getMaxId('CDI_COMMANDE','CO'),
@@ -25,7 +26,28 @@ $values = array(
 		 &&$values['CO_DATE']!=false){
 
         $bdd->insert('CDI_COMMANDE', $values);
+
+
+        $values['DATE_LIV'] = date_add( date_create_from_format('Y-m-d', $values['CO_DATE']) , date_interval_create_from_date_string('5 days'))->format("Y-m-d");
+
+        $values['STATUT'] = 0;
+
+        unset($values['CO_DATE']);
+        $bdd->insert('CDI_LIVRAISON', $values);
         $message = array('etat' => 'success', 'message' => 'vous avez bien rempli le formulaire');
+        $idCommande = $values['CO_NUMERO'];
+        $values = [];
+        $values['CO_NUMERO'] = $idCommande;
+        foreach ($articles as $article) {
+
+            if(isset($_POST[$article['AR_NUMERO']]) && !empty($_POST[$article['AR_NUMERO']]) && $_POST[$article['AR_NUMERO']] != 0) {
+
+                $values['AR_NUMERO'] = $article['AR_NUMERO'];
+                $values['QUANTITE'] = $_POST[$article['AR_NUMERO']];
+
+                $bdd->insert('CDI_ARTICLE_COMMANDE', $values);
+            }
+        }
 	}
     elseif (isset ($_POST['test'])? $_POST['test']: FALSE == "true") {
         $message = array('etat' => 'danger', 'message' => 'vous avez mal rempli le formulaire');
@@ -84,8 +106,20 @@ if(isset($message['etat'])) {
 	</div>
 	<div class="form-group">
         <label for="nom">Date : </label>
-        <input type="date" class="form-control" id="date" name="date" value="<?php echo $values['CO_DATE'] ?>">
+        <input type="date" class="form-control" id="date" name="date" value="<?php if(isset($values['CO_DATE'])){echo $values['CO_DATE'];} ?>">
 	</div>
+
+        <?php
+            foreach ($articles as $article) {
+                echo '<div class="form-group">';
+                echo '<label for="'.$article['AR_NUMERO'].'">'.$article['AR_NOM'].'</label>';
+                echo '<input type="number" name="'.$article['AR_NUMERO'].'" id="'.$article['AR_NUMERO'].'">';
+                echo '</div>';
+            }
+
+        ?>
+
+
 	<input type="hidden" value="true" name="test">
     <button type="submit" class="btn btn-primary">Envoyer</button>
     </form>

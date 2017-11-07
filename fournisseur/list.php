@@ -5,7 +5,7 @@ require_once '../bdd.php';
 $bdd = new Bdd();
 $bdd->connect();
 $fournisseurs = $bdd->queryAll("SELECT * FROM CDI_FOURNISSEUR");
-var_dump($fournisseurs);
+
 
 ?>
 

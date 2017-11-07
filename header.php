@@ -5,7 +5,7 @@
     <link rel="shortcut icon" type="image/ico" href="img/favicon.gif" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../style.css" />
-    <title>Client | ADD </title>
+    <title>Projet php</title>
 </head>
 <body>
 
@@ -13,7 +13,7 @@
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="#">The Big Boss Website Ever In The World Of The Galaxy Universal</a>
+    <a class="navbar-brand" href="#">Projet PHP</a>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
@@ -62,8 +62,8 @@
                 <div class="dropdown">
                     <button class="dropbtn">Livraison</button>
                     <div class="dropdown-content">
-                        <a href="#">Listes</a>
-                        <a href="#">Ajouter</a>
+                        <a href="../livraison/list.php">Listes</a>
+
                     </div>
                 </div>
             </li>

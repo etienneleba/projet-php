@@ -40,14 +40,15 @@ $date = new DateTime();
                 echo "<td>";
                 echo '<div class="btn-group">';
 
-                if($livraison['STATUT'] == 0) {
+                if($livraison['STATUT'] == 1) {
 
-                    echo '<a href="status.php?id='.$livraison['LI_NUMERO'].'"><button  class="btn btn-success">LIVREE ? </button></a></td>';
+                       echo '<button  class="btn btn-info">LIVREE</button></td>';
                 }elseif(strtotime($livraison['DATE_LIV']) > $date->getTimestamp()) {
                     echo '<a href="status.php?id='.$livraison['LI_NUMERO'].'"><button  class="btn btn-warning">LIVREE ? </button></a></td>';
 
                 }else {
-                    echo '<button  class="btn btn-info">LIVREE</button></td>';
+
+                    echo '<a href="status.php?id='.$livraison['LI_NUMERO'].'"><button  class="btn btn-success">LIVREE ? </button></a></td>';
 
                 }
 

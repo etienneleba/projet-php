@@ -1,7 +1,7 @@
 <?php
 
-define('_USER', 'root');
-define('_PASSWORD', '');
+define('_USER', 'cdi');
+define('_PASSWORD', 'cdiprojetphp');
 define('_DATABASE', 'cdi');
 define('_HOST', 'localhost');
 

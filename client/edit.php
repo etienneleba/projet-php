@@ -25,7 +25,7 @@ $client = array(
 	'CL_PRENOM' => isset ($_POST['prenom'])? $verif->verifEtCorrectionPrenom($_POST['prenom']) : false,
 	'CL_PAYS' => isset ($_POST['pays'])? $_POST['pays']: '',
 	'CL_LOCALITE' => isset ($_POST['localite'])? $verif->verifEtCorrectionLocalite($_POST['localite']) : false,
-	'CL_TYPE' => isset ($_POST['type'])? $_POST['type']: '',
+	'CL_TYPE' => Particulier,
 
 );
 

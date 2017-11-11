@@ -10,7 +10,7 @@ $bdd->connect();
 
 $clients = $bdd->queryAll('SELECT * FROM CDI_CLIENT');
 $magasins = $bdd->queryAll('SELECT * FROM CDI_MAGASIN');
-$articles = $bdd->queryAll('SELECT * FROM CDI_ARTICLE');
+$articles = $bdd->queryAll('SELECT DISTINCT * FROM CDI_ARTICLE');
 
 
 $values = array(
@@ -112,7 +112,7 @@ if(isset($message['etat'])) {
         <?php
             foreach ($articles as $article) {
                 echo '<div class="form-group">';
-                echo '<label for="'.$article['AR_NUMERO'].'">'.$article['AR_NOM'].'</label>';
+                echo '<label for="'.$article['AR_NUMERO'].'">'.$article['AR_NOM'].'   '. $article['AR_COULEUR'] . '</label>';
                 echo '<input type="number" name="'.$article['AR_NUMERO'].'" id="'.$article['AR_NUMERO'].'">';
                 echo '</div>';
             }

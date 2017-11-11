@@ -1,10 +1,13 @@
 <?php
 
 require_once '../bdd.php';
-
+ini_set('display_errors', 1);
 $bdd = new Bdd();
 $bdd->connect();
+
 $clients = $bdd->queryAll("SELECT * FROM CDI_CLIENT");
+
+
 ?>
 
 

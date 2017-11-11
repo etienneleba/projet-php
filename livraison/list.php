@@ -43,7 +43,7 @@ $date = new DateTime();
                 if($livraison['STATUT'] == 1) {
 
                        echo '<button  class="btn btn-info">LIVREE</button></td>';
-                }elseif(strtotime($livraison['DATE_LIV']) > $date->getTimestamp()) {
+                }elseif(strtotime($livraison['DATE_LIV']) < $date->getTimestamp()) {
                     echo '<a href="status.php?id='.$livraison['LI_NUMERO'].'"><button  class="btn btn-warning">LIVREE ? </button></a></td>';
 
                 }else {

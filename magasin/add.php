@@ -16,7 +16,7 @@ $values = array(
 
     'MA_NUMERO' => $bdd->getMaxId('CDI_MAGASIN','MA'),
     'MA_LOCALITE' => isset ($_POST['localite'])? $verif->verifEtCorrectionLocalite($_POST['localite']) : false,
-    'MA_GERANT' => isset ($_POST['nom'])&& isset($_POST['prenom'])?$verif->verifEtCorrectionNom($_POST['nom']).' '.$verif->verifEtCorrectionPrenom($_POST['prenom']): false,
+    'MA_GERANT' => isset ($_POST['nom'])&& isset($_POST['prenom']) && $verif->verifEtCorrectionNom($_POST['nom'])!= false && $verif->verifEtCorrectionPrenom($_POST['prenom'])!=false ? $verif->verifEtCorrectionNom($_POST['nom']) . '  ' . $verif->verifEtCorrectionPrenom($_POST['prenom']) : false,
 );
 
 if($values['MA_NUMERO']!=false

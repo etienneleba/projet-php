@@ -61,11 +61,8 @@ class Bdd {
              $requete = $requete . "`".$key . "`= :". $key;
         }
 
-        echo $requete;
-        echo '<PRE>';
+        
         $values = array_merge($values, $id);
-        var_dump($values);
-        echo '</PRE>';
         $stmt = $this->bdd->prepare($requete);
 
         $stmt->execute($values);

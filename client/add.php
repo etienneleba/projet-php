@@ -10,8 +10,6 @@ $verif = new Verification();
 
 $bdd = new Bdd();
 $bdd->connect();
-$bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 
 $values = array(
@@ -27,6 +25,7 @@ $values = array(
 
 
 if($values['CL_NUMERO']!=false
+&& $values['CL_PRENOM']!=false
     &&$values['CL_NOM']!=false
     &&$values['CL_PAYS']!=false
     &&$values['CL_LOCALITE']!=false

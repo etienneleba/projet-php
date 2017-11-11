@@ -7,8 +7,7 @@ $verif = new Verification();
 
 $bdd = new Bdd();
 $bdd->connect();
-$bdd->getBdd()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$bdd->getBdd()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
 $fours = $bdd->queryAll('SELECT * FROM CDI_FOURNISSEUR');
 
 
@@ -18,7 +17,7 @@ $values = array(
   'FO_NUMERO' => isset($_POST['four'])? $_POST['four']: false,
   'AR_NOM' =>  isset ($_POST['nom'])? $verif->verifEtCorrectionNom($_POST['nom']) : false,
   'AR_POIDS' => isset ($_POST['poids'])? $_POST['poids']: false,
-  'AR_COULEUR' => isset ($_POST['couleur'])? $_POST['couleur']: false,
+  'AR_COULEUR' => isset ($_POST['couleur'])? $verif->verifEtCorrectionNom($_POST['couleur']) : false,
   'AR_STOCK' => isset ($_POST['stock'])? $_POST['stock']: false,
   'AR_PA' => isset ($_POST['pa'])? $_POST['pa']: false,
   'AR_PV' => isset ($_POST['pv'])? $_POST['pv']: false,
